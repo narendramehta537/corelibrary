@@ -1,0 +1,98 @@
+<div>
+    <div class="l-navbar"
+        id="navbar">
+        <nav class="nav">
+            <div>
+                <div class="nav__brand">
+                    <i name="menu-outline"
+                        class="nav__toggle fas fa-bars"
+                        id="nav-toggle"></i>
+                    <a href="#"
+                        class="nav__logo"> &nbsp; App Manager</a>
+                </div>
+                <div class="nav__list">
+                    <a href="#"
+                        class="nav__link active">
+                        <i name="home-outline "
+                            class="nav__icon fa fa-home"></i>
+                        <span class="nav__name">Dashboard</span>
+                    </a>
+                    <a href="#"
+                        class="nav__link">
+                        <i name="chatbubbles-outline"
+                            class="nav__icon fas fa-envelope"></i>
+                        <span class="nav__name">Messenger</span>
+                    </a>
+
+                    <div class="nav__link collapse">
+                        <i name="folder-outline"
+                            class="nav__icon far fa-folder"></i>
+                        <span class="nav__name">Projects</span>
+
+                        <i name="chevron-down-outline"
+                            class="collapse__link fas fa-chevron-down"></i>
+
+                        <ul class="collapse__menu">
+                            <div>
+                                <a href="#"
+                                    class="collapse__sublink">Data</a>
+                            </div>
+                            <div>
+                                <a href="#"
+                                    class="collapse__sublink">Group</a>
+                            </div>
+                            <div> <a href="#"
+                                    class="collapse__sublink">Members</a>
+                            </div>
+
+                        </ul>
+                    </div>
+
+                    <a href="#"
+                        class="nav__link">
+                        <i name="pie-chart-outline"
+                            class="nav__icon fas fa-chart-pie"></i>
+                        <span class="nav__name">Analytics</span>
+                    </a>
+                    <div class="nav__link collapse">
+                        <i name="people-outline"
+                            class="nav__icon fas fa-users"></i>
+                        <span class="nav__name">Team</span>
+
+                        <i name="chevron-down-outline"
+                            class="collapse__link fas fa-chevron-down"></i>
+
+                        <ul class="collapse__menu">
+                            <div>
+                                <a href="#"
+                                    class="collapse__sublink">Data</a>
+                            </div>
+                            <div>
+                                <a href="#"
+                                    class="collapse__sublink">Group</a>
+                            </div>
+                            <div> <a href="#"
+                                    class="collapse__sublink">Members</a>
+                            </div>
+                        </ul>
+                    </div>
+                    <a href="#"
+                        class="nav__link">
+                        <i name="settings-outline"
+                            class="nav__icon fas fa-cog"></i>
+                        <span class="nav__name">Settings</span>
+                    </a>
+                </div>
+            </div>
+            <a href="#"
+                class="nav__link">
+                <i name="log-out-outline"
+                    class="nav__icon fas fa-sign-out-alt"></i>
+                <span class="nav__name">Log Out</span>
+            </a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <ng-content></ng-content>
+    </div>
+</div>

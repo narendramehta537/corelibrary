@@ -1,0 +1,85 @@
+@import "/src/app/shared/styles/overrides/scrollbar.scss";
+$nav-width: 17rem;
+.vertical-nav {
+  min-width: $nav-width;
+  width: $nav-width;
+  height: calc(100% - 2rem);
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  overflow-y: scroll;
+}
+.page-content {
+  width: calc(100% - $nav-width);
+  margin-left: $nav-width;
+  transition: all 0.4s;
+}
+
+#sidebar.active {
+  margin-left: -$nav-width;
+}
+
+#content.active {
+  width: 100%;
+  margin: 0;
+}
+
+.separator {
+  margin: 3rem 0;
+  border-bottom: 1px dashed #fff;
+}
+
+.text-uppercase {
+  letter-spacing: 0.1em;
+}
+.text-gray {
+  color: #aaa;
+}
+.nav-link {
+  text-transform: capitalize;
+}
+.nav-link:hover {
+  background: #f3f2f2;
+}
+.text-primary {
+  color: #7579e7 !important;
+}
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -$nav-width;
+  }
+  #sidebar.active {
+    margin-left: 0;
+  }
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+  #content.active {
+    margin-left: $nav-width;
+    width: calc(100% - $nav-width);
+  }
+}
+
+.dropdown-header {
+  text-align: center;
+  font-size: 1em;
+  color: #ddd;
+  background: #212531;
+  background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);
+}
+.sidebar-nav .dropdown-menu {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  border: none;
+  background-color: #222;
+  box-shadow: none;
+}
+.dropdown-menu.show {
+  top: 0;
+}

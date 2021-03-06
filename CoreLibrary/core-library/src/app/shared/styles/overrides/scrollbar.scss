@@ -1,0 +1,31 @@
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  visibility: hidden;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255, 0.5);
+  visibility: hidden;
+}
+// ::-webkit-scrollbar-track:hover {
+//   ::-webkit-scrollbar-thumb {
+//     visibility: visible;
+//   }
+//   ::-webkit-scrollbar {
+//     visibility: visible;
+//   }
+// }
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: #91aee4;
+  visibility: hidden;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  visibility: visible;
+}

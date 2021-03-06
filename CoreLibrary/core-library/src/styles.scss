@@ -1,0 +1,15 @@
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
+// @import "./app/layout/nav-bootstrap/nav-bootstrap.component.scss";
+// @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+@import './scss/margins.scss';
+
+body {
+  background-color: #8ec5fc;
+  background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+}
+
+.bg-transparent2-3 {
+  background: rgba(255, 255, 255, 0.2);
+  border: solid 1px rgba(255, 255, 255, 0.3);
+}

@@ -1,0 +1,42 @@
+<div class="container">
+    <div [hidden]="submitted">
+        <h1>Login Form</h1>
+        <form (ngSubmit)="onSubmit()"
+            #heroForm="ngForm">
+            <p *ngIf="errorMessage">{{errorMessage}}</p>
+            <div class="form-group">
+                <label for="name">username</label>
+                <input type="text"
+                    class="form-control"
+                    id="username"
+                    required
+                    [(ngModel)]="loginModel.username"
+                    name="username"
+                    #username="ngModel">
+                <!-- <div [hidden]="email.valid || email.pristine"
+                    class="alert alert-danger">
+                    Email is required
+                </div> -->
+            </div>
+
+            <div class="form-group">
+                <label for="password">password</label>
+                <input type="password"
+                    class="form-control"
+                    id="password"
+                    required
+                    [(ngModel)]="loginModel.password"
+                    name="password"
+                    #password="ngModel">
+                <!-- <div [hidden]="password.valid || password.pristine"
+                    class="alert alert-danger">
+                    Password is required
+                </div> -->
+            </div>
+
+            <button type="submit"
+                class="btn btn-success"
+                [disabled]="!heroForm.form.valid">Submit</button>
+        </form>
+    </div>
+</div>
