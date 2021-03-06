@@ -1,5 +1,6 @@
 @import "/src/app/shared/styles/overrides/scrollbar.scss";
 $nav-width: 17rem;
+
 .vertical-nav {
   min-width: $nav-width;
   width: $nav-width;
@@ -11,6 +12,7 @@ $nav-width: 17rem;
   transition: all 0.4s;
   overflow-y: scroll;
 }
+
 .page-content {
   width: calc(100% - $nav-width);
   margin-left: $nav-width;
@@ -34,29 +36,37 @@ $nav-width: 17rem;
 .text-uppercase {
   letter-spacing: 0.1em;
 }
+
 .text-gray {
   color: #aaa;
 }
+
 .nav-link {
   text-transform: capitalize;
 }
+
 .nav-link:hover {
   background: #f3f2f2;
 }
+
 .text-primary {
   color: #7579e7 !important;
 }
+
 @media (max-width: 768px) {
   #sidebar {
     margin-left: -$nav-width;
   }
+
   #sidebar.active {
     margin-left: 0;
   }
+
   #content {
     width: 100%;
     margin: 0;
   }
+
   #content.active {
     margin-left: $nav-width;
     width: calc(100% - $nav-width);
@@ -70,6 +80,7 @@ $nav-width: 17rem;
   background: #212531;
   background: linear-gradient(to right bottom, #2f3441 50%, #212531 50%);
 }
+
 .sidebar-nav .dropdown-menu {
   position: relative;
   width: 100%;
@@ -80,6 +91,7 @@ $nav-width: 17rem;
   background-color: #222;
   box-shadow: none;
 }
+
 .dropdown-menu.show {
   top: 0;
 }

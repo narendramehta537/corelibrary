@@ -1,0 +1,19 @@
+@mixin cardDefaults {
+  &-width {
+    width: $card-width;
+  }
+
+  &-height {
+    height: $card-width;
+  }
+}
+
+.card {
+  .default {
+    @include cardDefaults;
+  }
+
+  &.default {
+    @include cardDefaults;
+  }
+}

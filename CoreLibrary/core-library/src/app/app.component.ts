@@ -12,6 +12,7 @@ export class AppComponent {
     this.isAuthorized = authService.isLoggedIn;
   }
   title = 'core-library';
-  topNav = true;
+  //NOTE: comment @import "./app/layout/nav-bootstrap/nav-bootstrap.component.scss"; in style.scss to work top nav properly
+  topNav = false;
 
 }

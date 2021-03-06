@@ -1,0 +1,8 @@
+<div class="card default-width">
+  <img [src]="imageSrc" class="card-img-top default-width default-height" [alt]="title">
+  <div class="card-body default-width">
+    <h5 class="card-title">{{title}}</h5>
+    <p class="card-text">{{text}}</p>
+    <a *ngIf="redirectUrl" href="redirectUrl" class="btn btn-primary">Link</a>
+  </div>
+</div>

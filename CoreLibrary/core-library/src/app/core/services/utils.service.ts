@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { SampleData } from '../contents/SampleData';
 import { Constants } from '../models/Constants';
 import { AuthenticationService } from './authentication.service';
 
@@ -15,6 +16,7 @@ export class UtilsService {
 
   public get httpClientInstance() { return this.httpClient; }
   public get Constants() { return Constants; }
+  public get SampleData() { return new SampleData(); }
 
 
 
@@ -105,6 +107,15 @@ export class UtilsService {
     return `${environment.serverOrigin}${profilePic}`
     //return `${environment.serverOrigin}${profilePic}/?access_token=${this.authService.tokenDetails.token}`
   }
-
+  chunk(arr, chunkSize) {
+    if (chunkSize <= 0) throw "Invalid chunk size";
+    var R = [];
+    for (var i = 0, len = arr.length; i < len; i += chunkSize)
+      R.push(arr.slice(i, i + chunkSize));
+    return R;
+  }
+  countedArray(numbers) {
+    return Array(numbers).fill(0).map((x, i) => i);
+  }
 
 }

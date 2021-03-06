@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { AdministrationComponent } from './pages/administration/administration.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { LoginComponent } from './pages/login/login.component';
     AppRoutingModule,
     LayoutModule,
     FormsModule,
+    SharedModule,
     HttpClientModule,
     CoreModule
   ],
