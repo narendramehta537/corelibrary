@@ -11,6 +11,9 @@ export const environment = {
     user: {
       userLoggedIn: 'user/logged-in',
       profilePic: 'user/0/profile/picture',
+    },
+    file: {
+      download: 'file/{0}/{1}'
     }
 
   },

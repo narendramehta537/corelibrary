@@ -10,7 +10,8 @@ export class APIPrefixInterceptor implements HttpInterceptor {
         if (request.url.includes('pstmn.io')) {
             return next.handle(request);
         }
-        request = request.clone({ url: environment.serverUrl + request.url });
+        if (request.url.includes('https') === false)
+            request = request.clone({ url: environment.serverUrl + request.url });
 
         return next.handle(request)
     }

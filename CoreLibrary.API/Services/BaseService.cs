@@ -17,8 +17,5 @@ namespace CoreLibrary.API.Services
         }
     }
 
-    public abstract class BaseHttpClientService : BaseService
-    {
-
-    }
+   
 }

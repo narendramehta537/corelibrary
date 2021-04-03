@@ -1,5 +1,9 @@
 using CoreLibrary.API.Extensions.Startup;
+using CoreLibrary.API.Services;
+using CoreLibrary.Base.Interfaces;
 using CoreLibrary.Data;
+using CoreLibrary.Services.Social;
+using CoreLibrary.Utility.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -24,6 +28,10 @@ namespace CoreLibrary
             services.ConfigureSqliteDbServices<DataContext>(Configuration);
             services.ConfigureJwtServices(Configuration);
             services.ConfigureServices();
+            services.AddHttpClient<IHttpClientServices>();
+            services.AddScoped<IHttpClientServices, BaseHttpServices>();
+            services.AddScoped<IFileServices, FileServices>();
+            services.AddScoped<ITwtServices, TwtServices>();
             
             //FrontEndConfigureServices(services);
         }

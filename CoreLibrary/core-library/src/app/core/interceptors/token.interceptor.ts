@@ -15,7 +15,8 @@ export class TokenInterceptor implements HttpInterceptor {
         if (request.url.includes('pstmn.io')) {
             return next.handle(request);
         }
-        if (request.url.includes('/auth/login') === false) {
+
+        if (request.url.includes('/auth/login') === false && request.url.includes('https') === false) {
             let token = '';
             const tokenDetails = localStorage.getItem(environment.tokenName) || null;
             if (tokenDetails) {

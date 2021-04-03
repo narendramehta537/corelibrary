@@ -1,11 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { SampleData } from '../contents/SampleData';
 import { Constants } from '../models/Constants';
 import { AuthenticationService } from './authentication.service';
+import { saveAs } from 'file-saver';
+// import odiff from "odiff";
 
 @Injectable({
   providedIn: 'root'
@@ -118,4 +120,55 @@ export class UtilsService {
     return Array(numbers).fill(0).map((x, i) => i);
   }
 
+  downloadFileResponse(data) {
+    const blob = new Blob([data]);
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
+  }
+
+
+  downloadFile(url, fileName = '') {
+    this.httpClient.get(url, { responseType: 'blob' }).subscribe((data) => {
+      this.downloadFileResponse(data);
+    }
+    );
+  }
+
+  downloadWithResponseFileName(url: string, postData?: any): Observable<any> {
+    if (postData) {
+
+      return this.httpClient.post(url, postData, { responseType: 'blob', observe: 'response' }).pipe(
+        map((result: HttpResponse<Blob>) => {
+          const contentDisposition = result.headers.get('content-disposition');
+          let filename: any = this.getFilenameFromContentDisposition(contentDisposition);
+          filename = filename.replaceAll("\"", "")
+          saveAs(result.body, filename);
+          return result;
+        }));
+
+    }
+
+    return this.httpClient.get(url, { responseType: 'blob', observe: 'response' }).pipe(
+      map((result: HttpResponse<Blob>) => {
+        const contentDisposition = result.headers.get('content-disposition');
+        let filename: any = this.getFilenameFromContentDisposition(contentDisposition);
+        filename = filename.replaceAll("\"", "")
+        saveAs(result.body, filename);
+        return result;
+      }));
+
+  }
+
+  private getFilenameFromContentDisposition(contentDisposition: string) {
+    const regex = /filename=(?<filename>[^,;]+);/g;
+    const match = regex.exec(contentDisposition);
+    const filename = match.groups.filename;
+    return filename;
+  }
+
+  // objectDiff(original, updated) {
+  //   let diff = odiff(original, updated);
+  //   let obj = {}; diff.map((a: any) => obj[a.path[0]] = a.val);
+  //   return obj;
+  // }
 }

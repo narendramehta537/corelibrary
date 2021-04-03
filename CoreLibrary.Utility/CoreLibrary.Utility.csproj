@@ -6,12 +6,16 @@
 
   <ItemGroup>
     <Folder Include="Extensions\Startup\" />
-    <Folder Include="Helper\Startup\" />
+    <Folder Include="Utilities\Startup\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.16.0" />
+    <PackageReference Include="AutoFixture.AutoMoq" Version="4.16.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
