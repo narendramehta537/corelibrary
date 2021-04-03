@@ -14,6 +14,9 @@ export const environment = {
     },
     file: {
       downloadFile: 'file/DownloadFile'
+    },
+    twt: {
+      tweets: 'twt/Tweets'
     }
 
   },

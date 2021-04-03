@@ -1,4 +1,5 @@
 ﻿using CoreLibrary.Data;
+using CoreLibrary.Models;
 using CoreLibrary.Services.Social;
 using CoreLibrary.Utility.Models;
 using Microsoft.AspNetCore.Http;
@@ -18,10 +19,10 @@ namespace CoreLibrary.Controllers.Social
             _twtServices = twtServices;
         }
 
-        [HttpGet("{username}/{cursor}")]
-        public async Task<IActionResult> Tweets(string username, string cursor)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> Tweets([FromQuery] SocialQueryModel queryModel) 
         {
-            return (await _twtServices.Tweets(username, cursor)).finalResponse();
+            return (await _twtServices.Tweets(queryModel)).finalResponse();
         }
     }
 }

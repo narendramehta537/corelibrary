@@ -1,18 +1,14 @@
+<div class="text-end">
+  <a *ngIf="showDownloadAll && dataSource.length > 0" (click)="downloadImages()"> <i class="fa fa-download"
+      aria-hidden="true"></i></a>
+</div>
+
 <div class="row row-cols-auto gy-3">
 
   <ng-container *ngIf="dataSource.length > 0">
     <div class="col" *ngFor="let chunk of dataSource">
-      <app-card *ngIf="chunk" [imageSrc]="chunk"></app-card>
+      <app-card *ngIf="chunk" [cardTemplate]="chunk"></app-card>
     </div>
   </ng-container>
 
 </div>
-
-<!-- 
-<ng-container *ngIf="chunks.length >0">
-    <div *ngFor="let chunk of chunks" class="row">
-      <div class="col" *ngFor="let index of this.countedArr">
-        <app-card *ngIf="chunk[index]" [imageSrc]="chunk[index]"></app-card>
-      </div>
-    </div>
-  </ng-container> -->

@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { from } from 'rxjs';
 import { UtilsService } from 'src/app/core/services/utils.service';
+import * as Enumerable from 'linq';
+import { environment } from 'src/environments/environment';
+import { FileQueryModel } from 'src/app/core/models/QueryModels';
+import { CardTemplate } from 'src/app/core/models/CardTemplates';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-card-container',
@@ -9,7 +15,8 @@ import { UtilsService } from 'src/app/core/services/utils.service';
 export class CardContainerComponent implements OnInit {
 
   // @Input() rowSize = 5;
-  @Input() dataSource = [];
+  @Input() dataSource: CardComponent[] = [];
+  @Input() showDownloadAll = true;
 
   countedArr = [];
 
@@ -18,12 +25,20 @@ export class CardContainerComponent implements OnInit {
   // }
 
   constructor(private utilService: UtilsService) {
+
     // this.countedArr = utilService.countedArray(this.rowSize);
   }
 
   ngOnInit(): void {
   }
 
+  async downloadImages() {
+    debugger;
+    Enumerable.from(this.dataSource).forEach(async (item) => {
+      await this.utilService.downloadWithResponseFileName(environment.apiEndPoint.file.downloadFile, null, new FileQueryModel(item.imageSrc))
+        .toPromise();
+    });
+  }
 
 
 }

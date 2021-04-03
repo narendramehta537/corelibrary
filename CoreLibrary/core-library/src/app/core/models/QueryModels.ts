@@ -10,3 +10,12 @@ export class FileQueryModel {
     Url: string;
     FileName?: string;
 }
+
+export class SocialQueryModel {
+    constructor(userName: string, cursor?: string) {
+        this.UserName = userName;
+        if (cursor) this.Cursor = cursor;
+    }
+    UserName: string;
+    Cursor?: string;
+}

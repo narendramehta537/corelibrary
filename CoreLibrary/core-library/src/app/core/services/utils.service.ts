@@ -123,7 +123,7 @@ export class UtilsService {
 
 
 
-  downloadWithResponseFileName(url: string, postData?: any, params?: any): Observable<any> {
+  downloadWithResponseFileName(url: string, postData?: any, params?: any): Observable<HttpResponse<Blob>> {
     if (postData) {
 
       return this.httpClient.post(url, postData, { responseType: 'blob', observe: 'response' }).pipe(

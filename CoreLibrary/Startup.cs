@@ -32,7 +32,7 @@ namespace CoreLibrary
             services.AddScoped<IHttpClientServices, BaseHttpServices>();
             services.AddScoped<IFileServices, FileServices>();
             services.AddScoped<ITwtServices, TwtServices>();
-            
+            services.AddHttpContextAccessor();
             //FrontEndConfigureServices(services);
         }
 
