@@ -109,6 +109,7 @@ export class UtilsService {
     return `${environment.serverOrigin}${profilePic}`
     //return `${environment.serverOrigin}${profilePic}/?access_token=${this.authService.tokenDetails.token}`
   }
+
   chunk(arr, chunkSize) {
     if (chunkSize <= 0) throw "Invalid chunk size";
     var R = [];
@@ -120,21 +121,9 @@ export class UtilsService {
     return Array(numbers).fill(0).map((x, i) => i);
   }
 
-  downloadFileResponse(data) {
-    const blob = new Blob([data]);
-    const url = window.URL.createObjectURL(blob);
-    window.open(url);
-  }
 
 
-  downloadFile(url, fileName = '') {
-    this.httpClient.get(url, { responseType: 'blob' }).subscribe((data) => {
-      this.downloadFileResponse(data);
-    }
-    );
-  }
-
-  downloadWithResponseFileName(url: string, postData?: any): Observable<any> {
+  downloadWithResponseFileName(url: string, postData?: any, params?: any): Observable<any> {
     if (postData) {
 
       return this.httpClient.post(url, postData, { responseType: 'blob', observe: 'response' }).pipe(
@@ -148,7 +137,7 @@ export class UtilsService {
 
     }
 
-    return this.httpClient.get(url, { responseType: 'blob', observe: 'response' }).pipe(
+    return this.httpClient.get(url, { responseType: 'blob', observe: 'response', params: params }).pipe(
       map((result: HttpResponse<Blob>) => {
         const contentDisposition = result.headers.get('content-disposition');
         let filename: any = this.getFilenameFromContentDisposition(contentDisposition);
@@ -166,9 +155,4 @@ export class UtilsService {
     return filename;
   }
 
-  // objectDiff(original, updated) {
-  //   let diff = odiff(original, updated);
-  //   let obj = {}; diff.map((a: any) => obj[a.path[0]] = a.val);
-  //   return obj;
-  // }
 }

@@ -26,16 +26,15 @@ namespace CoreLibrary.API.Services
         public async Task<FileResult> DownloadFile(string url, string fileName)
         {
             if (string.IsNullOrWhiteSpace(url) || !url.StartsWith("http"))
-                throw new Exception();
-            var decode = System.Net.WebUtility.UrlDecode(url);
-            var uri = new Uri(decode);
+                throw new Exception("Invalid Url");
+
             string ext = url.Substring(url.LastIndexOf('.') + 1);
-            fileName = string.IsNullOrWhiteSpace(fileName) ? fileName.Substring(url.LastIndexOf('/') + 1) : fileName;
+            fileName = string.IsNullOrWhiteSpace(fileName) ? url.Substring(url.LastIndexOf('/') + 1) : $"{fileName}.{ext}";
            
-            var response = await HttpClient.GetAsync(uri);
+            var response = await HttpClient.GetAsync(new Uri(url));
             var result = new FileContentResult(await response.Content.ReadAsByteArrayAsync(), "application/xlsx")
             {
-                FileDownloadName = $"{fileName}.{ext}"
+                FileDownloadName = $"{fileName}"
             };
 
             return result;

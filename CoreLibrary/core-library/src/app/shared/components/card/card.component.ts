@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FileQueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { environment } from 'src/environments/environment';
 import { String } from 'typescript-string-operations';
@@ -22,9 +23,10 @@ export class CardComponent implements OnInit {
   }
 
   downloadImage() {
-    debugger;
-    let url = String.Format(environment.apiEndPoint.file.download, this.imageSrc, '');
-    this.utilService.downloadFile(url);
+    this.utilService.downloadWithResponseFileName(environment.apiEndPoint.file.downloadFile, null, new FileQueryModel(this.imageSrc))
+      .subscribe((res) => {
+
+      });
     // this.utilService.downloadWithResponseFileName(this.imageSrc);
   }
 

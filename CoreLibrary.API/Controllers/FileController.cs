@@ -1,4 +1,5 @@
 ﻿using CoreLibrary.API.Services;
+using CoreLibrary.Base.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,10 +19,10 @@ namespace CoreLibrary.API.Controllers
             _fileServices = fileServices;
 
         }
-        [HttpGet("[action]/{url}/{fileName}")]
-        public Task<FileResult> DownloadFile(string url,string? fileName)
+        [HttpGet("[action]")]
+        public Task<FileResult> DownloadFile([FromQuery] FileQueryModel queryModel)
         {
-            return _fileServices.DownloadFile(url, fileName);
+            return _fileServices.DownloadFile(queryModel.Url, queryModel.FileName);
         }
     }
 }

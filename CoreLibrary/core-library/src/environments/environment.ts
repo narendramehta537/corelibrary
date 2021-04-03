@@ -13,7 +13,7 @@ export const environment = {
       profilePic: 'user/0/profile/picture',
     },
     file: {
-      download: 'file/{0}/{1}'
+      downloadFile: 'file/DownloadFile'
     }
 
   },
