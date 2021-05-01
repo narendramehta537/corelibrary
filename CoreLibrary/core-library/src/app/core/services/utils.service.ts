@@ -1,12 +1,14 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, finalize } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { SampleData } from '../contents/SampleData';
 import { Constants } from '../models/Constants';
 import { AuthenticationService } from './authentication.service';
 import { saveAs } from 'file-saver';
+import { String } from 'typescript-string-operations';
+import { Func } from '../classes/Funcs';
 // import odiff from "odiff";
 
 @Injectable({
@@ -20,59 +22,108 @@ export class UtilsService {
   public get Constants() { return Constants; }
   public get SampleData() { return new SampleData(); }
 
+  formatUrl(url, ...args: any[]) {
+    return args.length > 0 ? String.Format(url, ...args) : url;
+  }
 
+  request(url, method = Constants.GET, options?, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
+    let payLoad = {
+      params: Constants.isBody(method) ? null : options,
+      body: Constants.isBody(method) ? options : null,
+    };
 
-  getRequest(url, params?) {
-    return this.httpClient.get(url, params).pipe(
+    return this.httpClient.request(method, url, payLoad).pipe(
       map((res) => res),
       map((body) => body),
       catchError((body) => of(body))
     );
   }
-  postRequest(url, params) {
-    return this.httpClient.post(url, params).pipe(
+
+  getRequest(url, params?, ...args: any[]) {
+
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.get(url, { params: params }).pipe(
       map((res) => res),
       map((body) => body),
       catchError((body) => of(body))
     );
   }
-  putRequest(url, params) {
-    return this.httpClient.put(url, params).pipe(
+
+  postRequest(url, body, ...args: any[]) {
+
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.post(url, body).pipe(
       map((res) => res),
       map((body) => body),
       catchError((body) => of(body))
     );
   }
-  deleteRequest(url, params?) {
+  putRequest(url, body, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.put(url, body).pipe(
+      map((res) => res),
+      map((body) => body),
+      catchError((body) => of(body))
+    );
+  }
+  deleteRequest(url, params?, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
     return this.httpClient.delete(url, params).pipe(
       map((res) => res),
       map((body) => body),
       catchError((body) => of(body))
     );
   }
-  postRequestUnHandled(url, params) {
-    return this.httpClient.post(url, params).pipe(
+
+  requestUnhandled(url, method = Constants.GET, options?, func?: Func, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
+    let payLoad = {
+      params: Constants.isBody(method) ? null : options,
+      body: Constants.isBody(method) ? options : null,
+    };
+
+    return this.httpClient.request(method, url, payLoad).pipe(
       map((res) => res),
       map((body) => body),
-      catchError((err) => throwError(err))
-    );
-  }
-  putRequestUnHandled(url, params) {
-    return this.httpClient.put(url, params).pipe(
-      map((res) => res),
-      map((body) => body),
-      catchError((err) => throwError(err))
-    );
-  }
-  deleteRequestUnHandled(url, params?) {
-    return this.httpClient.delete(url, params).pipe(
-      map((res) => res),
-      map((body) => body),
-      catchError((body) => throwError(body))
+      finalize(() => func && func())
     );
   }
 
+  postRequestUnHandled(url, body, func?: Func, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.post(url, body).pipe(
+      map((res) => res),
+      map((body) => body),
+      finalize(() => func && func())
+    );
+  }
+  putRequestUnHandled(url, body, func?: Func, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.put(url, body).pipe(
+      map((res) => res),
+      map((body) => body),
+      finalize(() => func && func())
+    );
+  }
+  deleteRequestUnHandled(url, params?, func?: Func, ...args: any[]) {
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.delete(url, { params: params }).pipe(
+      map((res) => res),
+      map((body) => body),
+      finalize(() => func && func())
+    );
+  }
 
+  getRequestUnhandled(url, params?, func?: Func, ...args: any[]) {
+
+    url = this.formatUrl(url, ...args);
+    return this.httpClient.get(url, { params: params }).pipe(
+      map((res) => res),
+      map((body) => body),
+      finalize(() => func && func())
+    );
+  }
 
   dateFormatDDMMYYYYHHSS(date) {
     var dateStr =
@@ -98,6 +149,7 @@ export class UtilsService {
       date.getFullYear();
     return dateStr;
   }
+
 
   momentDate(date) {
     if (date) {
@@ -153,6 +205,26 @@ export class UtilsService {
     const match = regex.exec(contentDisposition);
     const filename = match.groups.filename;
     return filename;
+  }
+
+  getBetween(input: string, firstvariable, secondvariable) {
+    let matchList = [];
+    var matches = input.match(new RegExp(firstvariable + "(.*?)" + secondvariable, 'g'));
+    if (matches) {
+      matches.forEach((val) => {
+        let match = val.match(new RegExp(firstvariable + "(.*?)" + secondvariable));
+        matchList.push(match[1]);
+      })
+    }
+    return matchList;
+  }
+
+  setClassValuesFromInterfaceObj(interfaceObj: any, classObj: any) {
+    if (interfaceObj) {
+      Object.keys(interfaceObj).forEach((key) => {
+        if (interfaceObj[key]) classObj[key] = interfaceObj[key];
+      });
+    }
   }
 
 }

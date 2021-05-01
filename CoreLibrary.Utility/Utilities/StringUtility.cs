@@ -2,6 +2,8 @@
 using AutoFixture.AutoMoq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace CoreLibrary.Utility.Helper
@@ -58,6 +60,8 @@ namespace CoreLibrary.Utility.Helper
             return input.Substring(startIndex, afterStartIndex - startIndex);
         }
 
+
+
         public static List<T> DeepClone<T>(List<T> list) where T : class
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<List<T>>(Newtonsoft.Json.JsonConvert.SerializeObject(list));
@@ -65,6 +69,16 @@ namespace CoreLibrary.Utility.Helper
         public static T DeepClone<T>(T obj) where T : class
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
+        }
+
+        public static string ToQueryString<T>(T obj) where T :class
+        {
+            if (obj == null) return "";
+
+            return "?" + string.Join("&", obj.GetType()
+                                       .GetProperties()
+                                       .Where(p => Attribute.IsDefined(p, typeof(DataMemberAttribute)) && p.GetValue(obj, null) != null)
+                                       .Select(p => $"{p.Name}={Uri.EscapeDataString(p.GetValue(obj).ToString())}"));
         }
 
     }

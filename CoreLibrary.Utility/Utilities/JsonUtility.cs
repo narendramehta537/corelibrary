@@ -15,10 +15,11 @@ namespace CoreLibrary.Utility.Utilities
         public static string Value(JObject jObj, params object[] path)
         {
             var index = 0;
-            JToken jToken;
+            JToken jToken =jObj;
             do
             {
-                jToken = jObj[path[index]];
+                var current = path[index];
+                jToken = jToken[current];
             } while (jToken != null && ++index != path.Length);
 
             return jToken == null ? "" : jToken.ToString();

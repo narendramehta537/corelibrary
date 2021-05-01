@@ -28,6 +28,7 @@ namespace CoreLibrary
             services.ConfigureSqliteDbServices<DataContext>(Configuration);
             services.ConfigureJwtServices(Configuration);
             services.ConfigureServices();
+            services.AddMemoryCache();
             services.AddHttpClient<IHttpClientServices>();
             services.AddScoped<IHttpClientServices, BaseHttpServices>();
             services.AddScoped<IFileServices, FileServices>();

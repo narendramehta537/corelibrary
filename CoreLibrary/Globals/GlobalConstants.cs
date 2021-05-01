@@ -4,7 +4,10 @@ namespace CoreLibrary.Globals
 {
     public class GlobalConstants
     {
-        public static string TwtBaseUrl = "https://twitter.com/i/api/";
+        public static string TwtBaseUrl = "https://twitter.com/";
+        public static string TwtBaseApiUrl = "https://twitter.com/i/api/";
+        public static string TwtGuestActivateUrl = "https://api.twitter.com/1.1/guest/activate.json"; 
+        public static string UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36";
         public static string TwtUserIdFromUserName(string username) =>
             $"graphql/hc-pka9A7gyS3xODIafnrQ/UserByScreenName?variables=%7B%22screen_name%22%3A%22{WebUtility.UrlEncode(username)}%22%2C%22withHighlightedLabel%22%3Atrue%7D";
         public static string TwtTweetsFromUserId(string username) =>

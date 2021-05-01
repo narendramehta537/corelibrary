@@ -5,6 +5,14 @@ import { UtilsService } from 'src/app/core/services/utils.service';
 import { environment } from 'src/environments/environment';
 import { String } from 'typescript-string-operations';
 
+export interface ICardComponent {
+  imageSrc?: string;
+  title?: string;
+  text?: string;
+  redirectUrl?: string;
+  showDownload?: boolean;
+}
+
 @Component({
   selector: 'app-card',
   templateUrl: './card.component.html',
@@ -19,7 +27,8 @@ export class CardComponent implements OnInit {
   @Input() showDownload = true;
   @Input() cardTemplate: CardComponent;
 
-  constructor(private utilService: UtilsService) { }
+  constructor(private utilService: UtilsService) {
+  }
 
   ngOnInit(): void {
     if (this.cardTemplate) {
@@ -29,6 +38,10 @@ export class CardComponent implements OnInit {
       this.redirectUrl = this.cardTemplate.redirectUrl;
       this.showDownload = this.cardTemplate.showDownload;
     }
+  }
+
+  setCardValue(card?: ICardComponent) {
+    this.utilService.setClassValuesFromInterfaceObj(card, this);
   }
 
 
