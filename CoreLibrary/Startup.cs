@@ -2,6 +2,7 @@ using CoreLibrary.API.Extensions.Startup;
 using CoreLibrary.API.Services;
 using CoreLibrary.Base.Interfaces;
 using CoreLibrary.Data;
+using CoreLibrary.Services;
 using CoreLibrary.Services.Social;
 using CoreLibrary.Utility.Services;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,11 @@ namespace CoreLibrary
             services.AddScoped<IHttpClientServices, BaseHttpServices>();
             services.AddScoped<IFileServices, FileServices>();
             services.AddScoped<ITwtServices, TwtServices>();
+
+            services.AddScoped<IGoogleDriveService, GoogleDriveService>();
+            services.AddScoped<IFileUploadService, FileUploadService>();
+            services.AddMemoryCache();
+
             services.AddHttpContextAccessor();
             //FrontEndConfigureServices(services);
         }

@@ -22,7 +22,7 @@ namespace CoreLibrary.Controllers.Social
         [HttpGet("[action]")]
         public async Task<IActionResult> Tweets([FromQuery] SocialQueryModel queryModel) 
         {
-            return (await _twtServices.Tweets(queryModel)).finalResponse();
+            return (await _twtServices.Tweets(queryModel)).ResponseResult();
         }
     }
 }

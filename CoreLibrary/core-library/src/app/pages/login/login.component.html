@@ -1,42 +1,60 @@
-<div class="container">
-    <div [hidden]="submitted">
-        <h1>Login Form</h1>
-        <form (ngSubmit)="onSubmit()"
-            #heroForm="ngForm">
-            <p *ngIf="errorMessage">{{errorMessage}}</p>
-            <div class="form-group">
-                <label for="name">username</label>
-                <input type="text"
-                    class="form-control"
-                    id="username"
-                    required
-                    [(ngModel)]="loginModel.username"
-                    name="username"
-                    #username="ngModel">
-                <!-- <div [hidden]="email.valid || email.pristine"
-                    class="alert alert-danger">
-                    Email is required
-                </div> -->
-            </div>
-
-            <div class="form-group">
-                <label for="password">password</label>
-                <input type="password"
-                    class="form-control"
-                    id="password"
-                    required
-                    [(ngModel)]="loginModel.password"
-                    name="password"
-                    #password="ngModel">
-                <!-- <div [hidden]="password.valid || password.pristine"
-                    class="alert alert-danger">
-                    Password is required
-                </div> -->
-            </div>
-
-            <button type="submit"
-                class="btn btn-success"
-                [disabled]="!heroForm.form.valid">Submit</button>
+<button (click)="changeTheme()">change Theme</button>
+<section class="d-flex justify-content-center w-100" [hidden]="submitted">
+  <div class="box">
+    <div class="square" style="--i:0"></div>
+    <div class="square" style="--i:1"></div>
+    <div class="square" style="--i:2"></div>
+    <div class="square" style="--i:3"></div>
+    <div class="square" style="--i:4"></div>
+    <div class="form-container">
+      <div class="form">
+        <h2>Login Form</h2>
+        <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+          <div class="form-group my-2">
+            <input type="text" class="form-control" placeholder="Username" type="text" id="username" required
+              [(ngModel)]="loginModel.username" name="username" #username="ngModel">
+          </div>
+          <div class="form-group my-2">
+            <input type="password" class="form-control" placeholder="Password" id="password" required
+              [(ngModel)]="loginModel.password" name="password" #password="ngModel">
+          </div>
+          <div class="form-group my-2 d-flex justify-content-end">
+            <input type="submit" value="Login" [disabled]="!heroForm.form.valid">
+          </div>
+          <p class="fg-text">Forget Password ? <a href="#">Click Here</a></p>
+          <p class="fg-text">Don't have a account ? <a href="#">Click Here</a></p>
         </form>
+      </div>
     </div>
-</div>
+  </div>
+</section>
+
+
+
+<!-- <section [hidden]="submitted">
+  <div class="box">
+    <div class="square" style="--i:0"></div>
+    <div class="square" style="--i:1"></div>
+    <div class="square" style="--i:2"></div>
+    <div class="square" style="--i:3"></div>
+    <div class="square" style="--i:4"></div>
+    <div class="form-container">
+      <div class="form">
+        <h2>Login Form</h2>
+        <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+          <div class="inputBox">
+            <input type="text" placeholder="Username">
+          </div>
+          <div class="inputBox">
+            <input type="password" placeholder="Password">
+          </div>
+          <div class="inputBox">
+            <input type="submit" value="Login">
+          </div>
+          <p class="forget">Forget Password ? <a href="#">Click Here</a></p>
+          <p class="forget">Don't have a account ? <a href="#">Click Here</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section> -->

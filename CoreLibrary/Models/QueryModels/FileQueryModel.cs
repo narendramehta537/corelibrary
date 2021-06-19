@@ -1,14 +1,14 @@
 ﻿using CoreLibrary.Base.Constants;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace CoreLibrary.Base.Models
+namespace CoreLibrary.Models.QueryModels
 {
     public class FileQueryModel
     {
-        public string Url { get; set; }
-        public string FileName { get; set; }
-
         public string FolderName { get; set; }
         public FileType FileType { get; set; }
-
     }
 }

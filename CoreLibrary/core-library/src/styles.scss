@@ -1,8 +1,9 @@
 @import "../node_modules/font-awesome/scss/font-awesome.scss";
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "./app/layout/nav-bootstrap/nav-bootstrap.component.scss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import './app/variable';
 @import './app/shared/styles/style.scss';
+@import "node_modules/bootstrap/scss/bootstrap";
 
 
 

@@ -24,6 +24,13 @@ namespace CoreLibrary.Utility.Models
             Data = data;
             return this;
         }
+        public APIResponse()
+        {
+        }
+        public APIResponse(HttpStatusCode httpStatusCode)
+        {
+            StatusCode = httpStatusCode;
+        }
 
         public APIResponse ReturnDisplayError(string DisplayError, string ConsoleError = null)
         {
@@ -121,7 +128,7 @@ namespace CoreLibrary.Utility.Models
             Error.ConsoleError = e.InnerException?.InnerException?.Message;
         }
 
-        public IActionResult finalResponse()
+        public IActionResult ResponseResult()
         {
             if (IsSuccess) return new OkObjectResult(this);
             else return new BadRequestObjectResult(Error);

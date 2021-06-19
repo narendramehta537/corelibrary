@@ -1,0 +1,153 @@
+<div [hidden]='hide' [class]="colClass " *ngIf="(diplayOnView  || formTemplate.isEdit) && formTemplate"
+  [ngClass]="{ 'has-error' : fieldError,'form-group':formTemplate.isEdit}" [formGroup]="formTemplate.formGroup">
+
+  <ng-container *ngTemplateOutlet="customLabel ? customLabel:labelTemplate; context: {item:this}">
+  </ng-container>
+
+
+  <label
+    *ngIf="!formTemplate.isEdit && type != formElement.checkbox && !diplayTemplateOnView || readonly;else editGroup"
+    class="font--inherit w-100">
+    <!-- template for view label -->
+    <ng-container *ngIf="!viewLabel;else viewLabelTemplate">{{getLabelFieldValue}}</ng-container>
+    <ng-template #viewLabelTemplate>
+      <ng-container *ngTemplateOutlet="viewLabel; context: {item:this}"></ng-container>
+    </ng-template>
+
+  </label>
+  <!-- select extra validations -->
+  <ng-content select="app-form-validation"></ng-content>
+
+  <ng-template #editGroup>
+
+    <!-- NOTE: don't use template here since it will not trigger touched event  -->
+
+    <!-- text -->
+    <ng-container *ngIf="type=='text'">
+      <div *ngIf="subDataField;else textTemplate" class="w-100 flex">
+        <input [type]="type" [class]="'form-control font--inherit '+elementClass" [id]="dataField" [name]="dataField"
+          [readOnly]="readonly" [email]="email" [formControlName]="dataField" [attr.required]="required"
+          [attr.disabled]="disabled?disabled:null" (keypress)="keyPressNumbers($event)"
+          [attr.placeholder]="placeHolder">
+
+        <input [type]="type" [class]="'form-control font--inherit  text-end '+subElementClass"
+          [ngClass]="{'bg-white':!disabled}" [id]="dataField+'sub'" [name]="dataField+'sub'"
+          [attr.disabled]="subDisabled" [value]="subDataField">
+      </div>
+      <ng-template #textTemplate>
+        <input [type]="type" [class]="'form-control font--inherit '+elementClass" [id]="dataField" [name]="dataField"
+          [readOnly]="readonly" [email]="email" [formControlName]="dataField" [attr.required]="required"
+          [attr.placeholder]="placeHolder" [attr.disabled]="disabled?disabled:null"
+          (keypress)="keyPressNumbers($event)">
+      </ng-template>
+      <ng-content></ng-content>
+    </ng-container>
+
+    <!-- textarea -->
+    <ng-container *ngIf="type=='textarea'">
+      <textarea [class]="'form-control font--inherit '+elementClass" [id]="dataField" [name]="dataField" [email]="email"
+        [formControlName]="dataField" [attr.required]="required" [attr.placeholder]="placeHolder" [readOnly]="readonly">
+    </textarea>
+      <ng-content></ng-content>
+    </ng-container>
+
+    <!-- password -->
+    <ng-container *ngIf="type=='password'">
+      <div *ngIf="showPassword;else hidePasswordTemplate" class="inputContainer">
+        <input type="password"
+          [class]="'form-control form-control-show-pass font--inherit input-show-pass '+elementClass" [id]="dataField"
+          [name]="dataField" [formControlName]="dataField" [attr.required]="required" [attr.placeholder]="placeHolder">
+
+        <i class="inputIcon fas fa-eye-slash" (click)="changeType($event)"></i>
+      </div>
+
+      <ng-template #hidePasswordTemplate>
+        <input [hidden]="showPassword" type=password [class]="'form-control font--inherit '+elementClass"
+          [id]="dataField" [name]="dataField" [formControlName]="dataField" [attr.required]="required"
+          [attr.placeholder]="placeHolder">
+      </ng-template>
+      <ng-content></ng-content>
+    </ng-container>
+
+
+    <!-- select -->
+    <ng-container *ngIf="type=='select'">
+      <select #selector [class]="'form-select  font--inherit form-control ps-1 '+elementClass" [id]="dataField"
+        [name]="dataField" [formControlName]="dataField" [attr.required]="required" [attr.placeholder]="placeHolder"
+        [attr.disabled]="disabled?disabled:null" [readOnly]="readonly">
+
+        <ng-content select="option"></ng-content>
+
+        <!-- NOTE: ': 0' means unsorted order of object properties -->
+        <ng-container *ngIf="dataSource && dataSourceType=='Object'">
+          {{selectValue()}}
+          <option *ngFor="let option of dataSource | keyvalue: returnZero" [value]="option.key">
+            {{option.value[displayExpr]}}</option>
+        </ng-container>
+
+        <ng-container *ngIf="dataSource && dataSource.length > 0">
+          {{selectValue()}}
+          <ng-container *ngIf="dataSourceType=='Array'">
+            <option *ngFor="let option of dataSource" [value]="option">{{option}}</option>
+          </ng-container>
+
+          <ng-container *ngIf="dataSourceType =='ObjectArray'">
+            <option *ngFor="let option of dataSource" [value]="option[keyExpr]">{{option[displayExpr]}}</option>
+          </ng-container>
+
+        </ng-container>
+      </select>
+    </ng-container>
+
+    <!-- custom -->
+    <ng-container *ngIf="type=='custom'">
+      {{selectValue()}}
+      <ng-container #customTemplate *ngTemplateOutlet="customItem; context: {item:this}"></ng-container>
+    </ng-container>
+
+    <!-- datepicker -->
+    <ng-container *ngIf="type=='datepicker'">
+      {{selectValue()}}
+
+      <div class="inputContainer">
+        <input type="text" [class]="'form-control font--inherit '+elementClass" [id]="dataField" [name]="dataField"
+          [readOnly]="readonly" [formControlName]="dataField" [attr.required]="required"
+          [attr.disabled]="disabled?disabled:null" (keypress)="keyPressNumbers($event)" [bsConfig]="bsConfig"
+          #dp="bsDatepicker" bsDatepicker [(bsValue)]="datePickerValue" [attr.placeholder]="placeHolder">
+
+        <i class="inputIcon far fa-calendar-alt" (click)="dp.toggle()"></i>
+      </div>
+      <ng-content></ng-content>
+    </ng-container>
+
+    <!-- checkbox -->
+    <ng-container *ngIf="type=='checkbox'">
+      {{selectValue()}}
+      <input type='checkbox' [class]="elementClass" [id]="dataField" [name]="dataField" [formControlName]="dataField"
+        (change)="onChanged($event)" [attr.disabled]=" !formTemplate.isEdit || null" [attr.required]="required">
+      <ng-content></ng-content>
+    </ng-container>
+
+
+
+
+
+    <!-- default errros -->
+    <ng-container *ngFor="let error of this.defaultValidaionErrors">
+      <div *ngIf="error.onDisplay() && (control.touched && !isFocused )" class="text-danger w-100 small">
+        {{error.funcMessage && error.funcMessage()}} </div>
+    </ng-container>
+
+  </ng-template>
+
+  <ng-template #labelTemplate>
+    <ng-container *ngIf="showLabel && label">
+      <label [attr.for]="dataField" [ngbTooltip]="labelTooltip">
+        <span [class]="labelClass">{{label}}</span>
+        <span class="text-danger" *ngIf=" required && formTemplate.isEdit"> *</span>
+      </label>
+
+    </ng-container>
+  </ng-template>
+
+</div>

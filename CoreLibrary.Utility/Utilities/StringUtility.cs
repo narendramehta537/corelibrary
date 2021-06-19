@@ -70,6 +70,12 @@ namespace CoreLibrary.Utility.Helper
         {
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Newtonsoft.Json.JsonConvert.SerializeObject(obj));
         }
+        public static string GetFileExtension(string fileName)
+        {
+            if (fileName.Contains("."))
+                return fileName.Substring(fileName.LastIndexOf('.'));
+            return "";
+        }
 
         public static string ToQueryString<T>(T obj) where T :class
         {

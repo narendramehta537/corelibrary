@@ -9,6 +9,8 @@ import { AuthenticationService } from './authentication.service';
 import { saveAs } from 'file-saver';
 import { String } from 'typescript-string-operations';
 import { Func } from '../classes/Funcs';
+import { FormGroup } from '@angular/forms';
+import * as Enumerable from 'linq';
 // import odiff from "odiff";
 
 @Injectable({
@@ -226,5 +228,34 @@ export class UtilsService {
       });
     }
   }
+  formFieldsTouch(form: FormGroup) {
+    if (!form) return;
+    for (let i in form.controls) {
+      form.controls[i].markAsTouched();
+    }
+    // this.sleep(1000);
+  }
+  equalAnyValueFromArray(value, ...comparingValues: any[]) {
+    return Enumerable.from(comparingValues).any((item) => value == item);
+  }
+  trimmedValue(input: any) {
+    return typeof (input) == 'string' ? input.trim() : input;
+  }
 
+  setTheme(themes: Themes) {
+    let root: any = document.querySelector(':root');
+
+    Object.keys(themes).forEach((key) => {
+      if (themes[key]) {
+        let varName = `--${key.replace(/_/g, '-')}`;
+        root.style.setProperty(varName, themes[key]);
+      }
+    });
+  }
+
+}
+
+export interface Themes {
+  primary_color?: string;
+  primary_color_rgb?: string;
 }

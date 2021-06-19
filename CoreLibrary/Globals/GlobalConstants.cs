@@ -4,6 +4,7 @@ namespace CoreLibrary.Globals
 {
     public class GlobalConstants
     {
+        
         public static string TwtBaseUrl = "https://twitter.com/";
         public static string TwtBaseApiUrl = "https://twitter.com/i/api/";
         public static string TwtGuestActivateUrl = "https://api.twitter.com/1.1/guest/activate.json"; 

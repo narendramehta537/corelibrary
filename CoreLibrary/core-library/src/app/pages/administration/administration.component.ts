@@ -3,6 +3,7 @@ import { SocialQueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { CardComponent } from 'src/app/shared/components/card/card.component';
 import { environment } from 'src/environments/environment';
+import { String } from 'typescript-string-operations';
 import * as data from './tweets.data.json';
 
 @Component({
@@ -22,8 +23,38 @@ export class AdministrationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getTweets();
+    this.instaLogin();
+    //this.getTweets();
 
+  }
+
+  async instaLogin() {
+    //IGQVJYUDhpN0hZAQ3N2U3JzemhZAMVZA2MFBmU2IwMUVrRzh0dkxOd2NVV2pxMWpNV3hDdHBmdFlGQmF0ZAWxsZAnRtVjNsSTF2eWduQm5vWEFIR09DTkZAaNDRBS29fRnp0M1Q2ZAjdXTGlkMFB5QUVPR1NFegZDZD
+    let url = `https://api.instagram.com/oauth/authorize?client_id=1215772298875241&redirect_uri=https://localhost:4200/oauth&scope=user_profile,user_media&response_type=code`;
+    let params = {
+      client_id: 1215772298875241,
+      redirect_uri: 'https://localhost:4200/oauth',
+      response_type: 'code',
+      scope: 'user_profile,user_media',
+      // state:1
+    };
+
+    // fetch(url, {
+    //   mode: 'cors', headers: {
+    //     'Access-Control-Allow-Origin': '*'
+    //   }
+    // }).then((res) => {
+    //   console.log(res);
+    // }, (error) => {
+    //   console.log(error);
+    // })
+    // this.utilService.getRequestUnhandled('https://api.instagram.com/oauth/authorize', params).subscribe((res) => {
+    //   debugger;
+    // }, (error) => {
+    //   console.log(error);
+    // });
+
+    // let resp = await this.utilService.postRequestUnHandled('https://api.instagram.com/oauth/access_token',)
   }
 
 

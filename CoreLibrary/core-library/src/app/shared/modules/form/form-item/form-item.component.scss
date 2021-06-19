@@ -1,0 +1,24 @@
+.form-control {
+  &-show-pass.icon {
+    background-image: url(/images/check-mark.svg);
+    background-repeat: no-repeat;
+    background-position: 100%;
+    text-indent: 17px;
+  }
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.input-show-pass {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 10px;
+}

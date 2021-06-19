@@ -1,0 +1,19 @@
+.bg {
+
+  @each $name,
+  $color in $appColors {
+    &-#{$name} {
+      background: $color;
+    }
+  }
+}
+
+.fg {
+
+  @each $name,
+  $color in $appColors {
+    &-#{$name} {
+      color: $color;
+    }
+  }
+}

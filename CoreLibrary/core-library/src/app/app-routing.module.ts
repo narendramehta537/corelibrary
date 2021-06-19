@@ -5,10 +5,12 @@ import { AuthenticationService } from './core/services/authentication.service';
 import { AdministrationComponent } from './pages/administration/administration.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
+import { OauthComponent } from './pages/oauth/oauth.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuardService] },
   { path: 'login', component: LoginComponent, canActivate: [AuthGuardService] },
+  { path: 'oauth', component: OauthComponent },
   { path: 'administration', component: AdministrationComponent, canActivate: [AuthGuardService] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
   {

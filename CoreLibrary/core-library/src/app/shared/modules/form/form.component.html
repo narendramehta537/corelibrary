@@ -1,0 +1,74 @@
+<form #editForm="ngForm" [formGroup]="formGroup" (submit)="submitForm(editForm)">
+  <div *ngIf="formTemplate.showFormHeader" [class]="headerClass"
+    [ngClass]="{'row': formTemplate.addRow ,'flex':formTemplate.addFlex}">
+    <div *ngIf="!formHeader" [class]=" 'align-self-center '+ (formTemplate.onTop ?'col-8':'col-12')">
+      <div class="padd--container--responsive">
+        <h3><strong>{{ formTemplate.header + header}}</strong></h3>
+      </div>
+    </div>
+    <!-- <ng-container *ngIf="invalid()"></ng-container> -->
+    <ng-container *ngIf="formTemplate.onTop">
+      <ng-container *ngTemplateOutlet="formHeader? formHeader: submit"></ng-container>
+    </ng-container>
+  </div>
+  <div class="flex" [ngClass]="{'row': formTemplate.addRow}">
+    <div class="w-100">
+      <div *ngIf="formTemplate.validationErrors && formTemplate.validationErrors.length > 0" class="row form-group">
+        <div class="col-lg-12">
+          <div *ngFor="let validationError of formTemplate.validationErrors;index as i"
+            class="alert alert-danger m-b-md">
+            <i class="pull-right fa fa-times padd--top--sml--sml2 cursor-pointer" (click)="dismissValidationErrors(i)">
+              {{validationError.header}}</i>
+            <ul>
+              <li *ngFor="let error of validationError.errors">{{error}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <ng-content></ng-content>
+      <div *ngIf="formTemplate.operation =='Edit ' && formTemplate.showDelete"
+        class="row form-group padd--container--responsive pt-0">
+        <div class="col-sm-12">
+          <a class="btn btn-sm btn--warning" (click)="delete()">{{formTemplate.deleteText}}</a>
+        </div>
+      </div>
+      <ng-container *ngIf="!formTemplate.onTop">
+        <ng-container *ngTemplateOutlet="formHeader? formHeader:submit"></ng-container>
+      </ng-container>
+
+    </div>
+  </div>
+
+</form>
+
+<ng-template #submit>
+  <div class="text-right" [ngClass]="{'col-4':formTemplate.onTop}">
+    <div [ngClass]="{'padd--top--sml--sml2':!formTemplate.onTop}" [class]="formTemplate.submitClass">
+      <div class="form-group spc--no"
+        [ngClass]="{'flex--align--end-responsive':formTemplate.onTop, 'd-flex justify-content-end':!formTemplate.onTop}">
+
+        <ng-container *ngTemplateOutlet="formCancel? formCancel:cancelTemplate"></ng-container>
+
+        <button *ngIf="formTemplate.isEdit;else buttonTemplate" type='submit'
+          [disabled]="formTemplate.submitting || !formTemplate.allowSubmit" [class]="formTemplate.submitButtonClass"
+          [ngClass]="{'active':this.formTemplate.valid }" [value]="formTemplate.submitText">
+          <span *ngIf="formTemplate.submitting" role="status" aria-hidden="true"
+            class="spinner-border spinner-border-sm me-2">
+          </span>
+          <span>{{formTemplate.submitText}}</span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #cancelTemplate>
+  <a *ngIf="formTemplate.cancelText" class="btn btn--link btn--med btn--height m-t-xs"
+    (click)="back()">{{showDone()}}</a>
+</ng-template>
+
+<ng-template #buttonTemplate>
+  <input type='button' [class]="formTemplate.submitButtonClass" [disabled]="!formData || !formTemplate.allowEdit"
+    (click)="onEdit(editForm)" value='Edit' />
+</ng-template>

@@ -1,1 +1,21 @@
+:root {
+  --primary-color: #fff;
+  --primary-color-rgb: 250, 250, 250;
+  --label-color: #01041b;
+  --text-color: #222260;
+}
+
 $card-width:15rem;
+$theme-color: var(--primary-color);
+$theme-color-rgb: var(--primary-color-rgb);
+$label-color: var(--label-color);
+$text-color: var(--text-color);
+
+$themes: (light: #fff,
+  dark:#666, banana: #f1c40f,
+  cherry: #c0392b,
+  blueberry: #8e44ad,
+  leaf: #27ae60,
+  nightsky: #2980b9);
+
+$appColors:(theme:$theme-color, text:$text-color, label:$label-color);

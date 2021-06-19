@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavToolbarComponent } from './layout/nav-toolbar/nav-toolbar.component';
-import { NavIconToolbarComponent } from './layout/nav-icon-toolbar/nav-icon-toolbar.component';
 import { LayoutModule } from './layout/layout.module';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,6 +11,9 @@ import { AdministrationComponent } from './pages/administration/administration.c
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SharedModule } from './shared/shared.module';
+import { OauthComponent } from './pages/oauth/oauth.component';
+import { FormModule } from './shared/modules/form/form.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
     DashboardComponent,
     AdministrationComponent,
     LoginComponent,
+    OauthComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +30,9 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     SharedModule,
     HttpClientModule,
-    CoreModule
+    CoreModule,
+    FormModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
