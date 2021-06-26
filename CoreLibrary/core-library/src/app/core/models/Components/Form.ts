@@ -112,7 +112,7 @@ export class FormTemplate implements IFormTemplate {
     addFlex = true;
     valid = false;
     submitting = false;
-    showFormHeader = true;
+    showFormHeader = false;
     cancelText = 'Cancel';
     defaultOperations = false;
     showDelete = false;

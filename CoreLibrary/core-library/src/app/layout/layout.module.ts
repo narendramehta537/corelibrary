@@ -4,10 +4,12 @@ import { NavIconToolbarComponent } from './nav-icon-toolbar/nav-icon-toolbar.com
 import { NavBootstrapComponent } from './nav-bootstrap/nav-bootstrap.component';
 import { FooterComponent } from './footer/footer.component';
 import { NavTopComponent } from './nav-top/nav-top.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   declarations: [NavIconToolbarComponent, NavBootstrapComponent, FooterComponent, NavTopComponent],
   exports: [NavIconToolbarComponent, NavBootstrapComponent, FooterComponent, NavTopComponent]

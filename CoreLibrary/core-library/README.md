@@ -2,26 +2,90 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.1.
 
-## Development server
+<details open="open">
+<summary>Table of Contents</summary>
+ <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li>
+    <a href="#shared-components">Shared Components</a>
+    <ul>
+        <li><a href="#form">Form</a></li>
+        <li><a href="#datagrid">Data Grid</a></li>
+      </ul>
+    </li>
+    <li><a href="#libraries">Libraries</a></li>
+  </ol>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+</details>
+## About The Project
 
-## Code scaffolding
+[Angular CLI](https://github.com/angular/angular-cli) version 11.1.1.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Built with
 
-## Build
+This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- [Angular](https://angular.io)
+- [Bootstrap v5.0.2](https://getbootstrap.com)
 
-## Running unit tests
+<!-- GETTING STARTED -->
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Getting Started
 
-## Running end-to-end tests
+Setting up your project locally.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Installation
 
-## Further help
+- Install all the packages
+  ```sh
+  npm install
+  ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### Prerequisites
+
+List of the software and how to install them.
+
+- [nodejs](https://nodejs.dev)
+
+## Shared Components
+
+### Form
+
+#### Features
+
+1. dynamic label, error message, validation
+
+#### Use cases
+
+1. check validation in copy paste like number with spaces
+
+### Datagrid
+
+#### Features
+
+1. Pagination, sorting, searching
+2. Stored dataSource, dynamic dataSource(get response from api on each event)
+
+## Libraries
+
+### Charts
+
+- [ngx-echarts](https://github.com/xieziyu/ngx-echarts)
+- [echart](https://echarts.apache.org/en/option-gl.html#globe)
+
+#### Bar charts
+
+<!-- 1. Can't add reduce space/gap between the two bars in case we have multiple axes
+2. can't change background of legend. -->

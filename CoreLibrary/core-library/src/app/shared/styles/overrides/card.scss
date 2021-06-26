@@ -9,6 +9,8 @@
 }
 
 .card {
+  @include borderBack(0.4);
+
   .default {
     @include cardDefaults;
   }

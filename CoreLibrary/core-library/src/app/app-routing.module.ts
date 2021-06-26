@@ -6,6 +6,7 @@ import { AdministrationComponent } from './pages/administration/administration.c
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
 import { OauthComponent } from './pages/oauth/oauth.component';
+import { SampleChartsComponent } from './pages/sample-charts/sample-charts.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuardService] },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'oauth', component: OauthComponent },
   { path: 'administration', component: AdministrationComponent, canActivate: [AuthGuardService] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
+  { path: 'sample-charts', component: SampleChartsComponent, canActivate: [AuthGuardService] },
   {
     path: '**',
     redirectTo: 'dashboard',

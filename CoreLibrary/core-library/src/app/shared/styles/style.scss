@@ -1,3 +1,11 @@
+@mixin borderBack($backA:0.2, $borderColor:$theme-color-rgb) {
+  background: rgba($borderColor, $alpha: $backA) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba($borderColor, $alpha: 0.5);
+  border-right: 1px solid $borderColor;
+  border-bottom: 1px solid rgba($borderColor, $alpha: 0.2);
+}
+
 @import './overrides/scrollbar.scss';
 @import './overrides/card.scss';
 @import './overrides/forms.scss';
