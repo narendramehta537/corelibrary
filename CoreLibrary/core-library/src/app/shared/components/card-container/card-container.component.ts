@@ -17,6 +17,7 @@ export class CardContainerComponent implements OnInit {
   // @Input() rowSize = 5;
   @Input() dataSource: CardComponent[] = [];
   @Input() showDownloadAll = true;
+  @Input() cardWrapperClass = 'col-sm-6 col-md-6 col-lg-3';
 
   countedArr = [];
 

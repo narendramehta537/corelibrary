@@ -14,7 +14,6 @@ import { SharedModule } from './shared/shared.module';
 import { OauthComponent } from './pages/oauth/oauth.component';
 import { FormModule } from './shared/modules/form/form.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SampleChartsComponent } from './pages/sample-charts/sample-charts.component';
@@ -38,7 +37,6 @@ import { SampleChartsComponent } from './pages/sample-charts/sample-charts.compo
     CoreModule,
     FormModule,
     NgbModule,
-    NgxChartsModule,
     BrowserAnimationsModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
