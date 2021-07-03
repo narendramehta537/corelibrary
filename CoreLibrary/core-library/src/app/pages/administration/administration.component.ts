@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Template } from '@angular/compiler/src/render3/r3_ast';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { SocialQueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { CardComponent } from 'src/app/shared/components/card/card.component';
 import { environment } from 'src/environments/environment';
 import { String } from 'typescript-string-operations';
 import * as data from './tweets.data.json';
+import * as htmlToImage from 'html-to-image';
+import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 
 @Component({
   selector: 'app-administration',
@@ -15,19 +18,40 @@ export class AdministrationComponent implements OnInit {
 
   dataSource: CardComponent[] = [];
   tweetData: any = data;
-  constructor(private utilService: UtilsService) { }
+  constructor(private utilService: UtilsService) {
+    for (let index = 0; index < 3; index++) {
+      let card = new CardComponent(this.utilService);
+      card.imageSrc = 'https://www.sciencenews.org/wp-content/uploads/2016/10/102116_EC_bubble_nucleus_main_0.jpg';
+      card.onHoverShowDetails = true;
+      this.dataSource.push(card);
+    }
+
+    // utilService.SampleData.images.map((img) => {
+    //   let card = new CardComponent(utilService);
+    //   card.imageSrc = img;
+    //   // card.onHoverShowDetails = true;
+    //   this.dataSource.push(card);
+    // })
+  }
 
   currentPageResponse: any;
   cursorText = '';
   tweetsList = [];
+  @ViewChild(TemplateRef) customCard: TemplateRef<any>;
 
   ngOnInit(): void {
+
+
+
 
     this.instaLogin();
     //this.getTweets();
 
   }
 
+  ngAfterViewInit() {
+
+  }
   async instaLogin() {
     //IGQVJYUDhpN0hZAQ3N2U3JzemhZAMVZA2MFBmU2IwMUVrRzh0dkxOd2NVV2pxMWpNV3hDdHBmdFlGQmF0ZAWxsZAnRtVjNsSTF2eWduQm5vWEFIR09DTkZAaNDRBS29fRnp0M1Q2ZAjdXTGlkMFB5QUVPR1NFegZDZD
     let url = `https://api.instagram.com/oauth/authorize?client_id=1215772298875241&redirect_uri=https://localhost:4200/oauth&scope=user_profile,user_media&response_type=code`;
@@ -86,6 +110,20 @@ export class AdministrationComponent implements OnInit {
       }
 
     } while (++index < 5 && this.cursorText)
+  }
+
+  downloadAsPng(filename: string, index: number): void {
+    document.getElementById(`non-printable-${index}`).style.display = 'none';
+
+    htmlToImage.toPng(document.getElementById(`printable-${index}`)).then((dataurl) => {
+      const link: any = document.createElement('a');
+
+      link.download = `${filename}.png`;
+      link.href = dataurl;
+      link.click();
+
+      document.getElementById(`non-printable-${index}`).style.display = 'block';
+    });
   }
 
 }

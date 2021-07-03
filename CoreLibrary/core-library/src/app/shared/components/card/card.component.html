@@ -1,9 +1,27 @@
-<div class="card ">
-  <img [src]="imageSrc" class="card-img-top  default-height" [alt]="title">
-  <div class="card-body ">
-    <h4 class="card-title">{{title}}</h4>
-    <p class="card-text">{{text}}</p>
+<div class="card">
+  <ng-content *ngTemplateOutlet="customCardTemplate?customCardTemplate:defaultTemplate"></ng-content>
+  <ng-content *ngTemplateOutlet="onHoverShowDetails?onHoverDetails:details"></ng-content>
+</div>
+<!-- customCardTemplate -->
+
+<ng-template #defaultTemplate>
+  <img [src]="imageSrc" [class]=" 'default-height card-img-' + (onHoverShowDetails?'overlay':'top')" [alt]="title">
+</ng-template>
+
+<ng-template #onHoverDetails>
+  <div *ngIf="title || text" class="card-img-overlay  op-0">
+    <h4 *ngIf="title" class="card-title">{{title}}</h4>
+    <p *ngIf="text" class="card-text">{{text}}</p>
     <a *ngIf="showDownload && imageSrc" (click)="downloadImage()"> <i class="fa fa-download" aria-hidden="true"></i></a>
     <a *ngIf="redirectUrl" href="redirectUrl" class="btn btn-primary">Link</a>
   </div>
-</div>
+</ng-template>
+
+<ng-template #details>
+  <div *ngIf="title || text" class="card-body ">
+    <h4 *ngIf="title" class="card-title">{{title}}</h4>
+    <p *ngIf=" text" class="card-text">{{text}}</p>
+    <a *ngIf="showDownload && imageSrc" (click)="downloadImage()"> <i class="fa fa-download" aria-hidden="true"></i></a>
+    <a *ngIf="redirectUrl" href="redirectUrl" class="btn btn-primary">Link</a>
+  </div>
+</ng-template>

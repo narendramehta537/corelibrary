@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { from } from 'rxjs';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import * as Enumerable from 'linq';
@@ -12,10 +12,10 @@ import { CardComponent } from '../card/card.component';
   templateUrl: './card-container.component.html',
   styleUrls: ['./card-container.component.scss']
 })
-export class CardContainerComponent implements OnInit {
+export class CardContainerComponent implements OnInit, OnChanges {
 
   // @Input() rowSize = 5;
-  @Input() dataSource: CardComponent[] = [];
+  @Input() dataSource: CardComponent[] = [];;
   @Input() showDownloadAll = true;
   @Input() cardWrapperClass = 'col-sm-6 col-md-6 col-lg-3';
 
@@ -29,12 +29,13 @@ export class CardContainerComponent implements OnInit {
 
     // this.countedArr = utilService.countedArray(this.rowSize);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+  }
 
   ngOnInit(): void {
   }
 
   async downloadImages() {
-    debugger;
     Enumerable.from(this.dataSource).forEach(async (item) => {
       await this.utilService.downloadWithResponseFileName(environment.apiEndPoint.file.downloadFile, null, new FileQueryModel(item.imageSrc))
         .toPromise();

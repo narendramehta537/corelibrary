@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 import { CardTemplate } from 'src/app/core/models/CardTemplates';
 import { FileQueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
@@ -26,6 +26,8 @@ export class CardComponent implements OnInit {
   @Input() redirectUrl: string;
   @Input() showDownload = true;
   @Input() cardTemplate: CardComponent;
+  @Input() onHoverShowDetails = false;
+  customCardTemplate: TemplateRef<any>;
 
   constructor(private utilService: UtilsService) {
   }
@@ -37,6 +39,8 @@ export class CardComponent implements OnInit {
       this.text = this.cardTemplate.text;
       this.redirectUrl = this.cardTemplate.redirectUrl;
       this.showDownload = this.cardTemplate.showDownload;
+      this.onHoverShowDetails = this.cardTemplate.onHoverShowDetails;
+      this.customCardTemplate = this.cardTemplate.customCardTemplate;
     }
   }
 

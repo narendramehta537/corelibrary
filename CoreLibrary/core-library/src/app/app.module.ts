@@ -17,6 +17,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SampleChartsComponent } from './pages/sample-charts/sample-charts.component';
+import { AnimationsModule } from './pages/animations/animations.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { SampleChartsComponent } from './pages/sample-charts/sample-charts.compo
     LayoutModule,
     FormsModule,
     SharedModule,
+    AnimationsModule,
     HttpClientModule,
     CoreModule,
     FormModule,

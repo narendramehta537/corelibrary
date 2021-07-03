@@ -16,6 +16,11 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
   { path: 'sample-charts', component: SampleChartsComponent, canActivate: [AuthGuardService] },
   {
+    path: 'animations',
+    loadChildren: () => import('./pages/animations/animations-routing.module').then(m => m.AnimationsRoutingModule),
+    canActivate: [AuthGuardService]
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   }

@@ -15,11 +15,14 @@ export class DashboardComponent implements OnInit {
     utilService.SampleData.images.map((img) => {
       let card = new CardComponent(utilService);
       card.imageSrc = img;
+      // card.onHoverShowDetails = true;
       this.dataSource.push(card);
     })
   }
 
   ngOnInit(): void {
   }
+  ngAfterViewInit() {
 
+  }
 }

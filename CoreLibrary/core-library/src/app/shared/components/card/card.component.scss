@@ -1,1 +1,11 @@
+.card {
+  &:hover {
+    .card-img {
+      opacity: .3 !important;
+    }
 
+    .card-img-overlay {
+      opacity: 1 !important;
+    }
+  }
+}
