@@ -1,6 +1,29 @@
-<app-card-container [dataSource]="dataSource" cardWrapperClass="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+<!-- <app-card-container [dataSource]="dataSource" cardWrapperClass="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+</app-card-container> -->
 
-</app-card-container>
+
+<div class="form-container p-2">
+
+  <app-form class="w-100" header="Change Your Password" [formTemplate]="formTemplate" (cancel)="cancel()">
+    <div class="row py-3 pb-5 ">
+
+      <app-form-item type='password' dataField="clientId" label="client Id" [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="redirectUri" label="redirect uri" [required]="true">
+      </app-form-item>
+      <app-form-item type='password' dataField="clientSecretCode" label="Client Secret Code" [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="scope" label="scope " [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="responseType" label="response type" [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="state" label="state">
+      </app-form-item>
+
+    </div>
+  </app-form>
+</div>
+
 
 <!-- <ng-template #customCard let-item="item">
   <app-bubbles></app-bubbles> -->

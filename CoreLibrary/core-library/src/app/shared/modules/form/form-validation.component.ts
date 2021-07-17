@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Func } from 'src/app/core/classes/Funcs';
 import { ValidationType } from 'src/app/core/models/components/Form';
 
@@ -12,11 +12,16 @@ export class FormValidationComponent implements OnInit {
   @Input() type: "required" | "function" | "pattern" = 'pattern';// ValidationType = ValidationType.pattern;
   @Input() pattern: string;
   @Input() message: string;
+  @Input() id: string;
   @Input() func?: Func;
+  @Output() onChange = new EventEmitter<any>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.onChange.emit(this);
   }
 
 }

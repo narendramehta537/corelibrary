@@ -6,6 +6,21 @@
   border-bottom: 1px solid rgba($borderColor, $alpha: 0.2);
 }
 
+
+@mixin breakpoint ($breakpoint:md, $key:min, $orientation:false) {
+  @if ($orientation) {
+    @media (#{$key}-width: map-get($breakpoints, $breakpoint)) and (orientation : $orientation) {
+      @content;
+    }
+  }
+
+  @else {
+    @media (#{$key}-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
 @import './overrides/scrollbar.scss';
 @import './overrides/card.scss';
 @import './overrides/forms.scss';

@@ -19,4 +19,7 @@ export class Constants {
         return (method == this.PUT || method == this.POST || method == this.PATCH);
     }
 
+    static secureData = 'secureData';
+    static instaToken = 'instaToken';
+
 }

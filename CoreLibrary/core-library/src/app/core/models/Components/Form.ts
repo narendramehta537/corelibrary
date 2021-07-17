@@ -112,7 +112,7 @@ export class FormTemplate implements IFormTemplate {
     addFlex = true;
     valid = false;
     submitting = false;
-    showFormHeader = false;
+    showFormHeader = true;
     cancelText = 'Cancel';
     defaultOperations = false;
     showDelete = false;
@@ -137,6 +137,7 @@ export class FormTemplate implements IFormTemplate {
     utilService: UtilsService;
     alertService: AlertService;
     location: Location;
+    // navService: NavigationService;
 
     constructor(options?: IFormOptions, formTemplate?: IFormTemplate) {
         this.options = options;
@@ -329,6 +330,8 @@ export enum FormElement {
 }
 
 export interface Validations {
+    // id used to compare dynamic changing message or funtions
+    id?: string;
     pattern?: string | RegExp;
     message: string;
     function?: Func;
@@ -340,6 +343,8 @@ export enum ValidationType {
     function = 'function',
 }
 export interface IForValidationMessage {
+    // id used to compare dynamic changing message or funtions
+    id?: string;
     validationType?: "required" | "function" | "pattern",
     message: string | Func,
     funcMessage?: Func,

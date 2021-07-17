@@ -28,7 +28,6 @@ export class FormItemComponent extends FormItemBaseComponent implements OnInit, 
   @Input() showPassword = false;
   @Input() defaultFirst = false;
 
-
   @ContentChild('viewLabel', { read: TemplateRef }) viewLabel: TemplateRef<any>;
   @ContentChild('customLabel', { read: TemplateRef }) customLabel: TemplateRef<any>;
   @ContentChild('customItem', { read: TemplateRef }) customItem: TemplateRef<any>;
@@ -60,6 +59,7 @@ export class FormItemComponent extends FormItemBaseComponent implements OnInit, 
     super(cdr, utilService);
   }
   ngOnChanges(changes: SimpleChanges): void {
+
     let require = changes.required;
     let hide = changes.hide;
     if (require) {
@@ -80,12 +80,20 @@ export class FormItemComponent extends FormItemBaseComponent implements OnInit, 
 
   ngAfterContentInit() {
 
-    let patterns: Validations[] = this.formValidations.toArray().map((res) => {
-      return {
-        pattern: res.pattern, message: res.message, type: res.type, function: res.func
-      };
+    // on load time added validations
+    let patterns: Validations[] = this.formValidations.toArray().map((formValid: FormValidationComponent) => {
+      this.validationChangeSubs(formValid);
+      return this.getValidation(formValid);
     });
-    this.assignValidations(patterns);
+
+    patterns.length > 0 && this.assignValidations(patterns);
+
+    // on dynamic new form added validations
+    this.formValidations.changes.subscribe((formValidations) => {
+      formValidations.toArray().map((formValid: FormValidationComponent) => {
+        this.validationChangeSubs(formValid);
+      });
+    });
 
     this.bsConfig = Object.assign({}, {
       minMode: this.dateViewMode,
@@ -95,8 +103,20 @@ export class FormItemComponent extends FormItemBaseComponent implements OnInit, 
 
   }
 
-  ngAfterContentChecked() {
+  validationChangeSubs(formValid: FormValidationComponent) {
+    formValid.onChange.subscribe((formValid: FormValidationComponent) => {
+      let validations = [this.getValidation(formValid)];
+      this.assignValidations(validations);
+    });
+  }
 
+  getValidation(res: FormValidationComponent): Validations {
+    return {
+      id: res.id, pattern: res.pattern, message: res.message, type: res.type, function: res.func
+    };
+  }
+
+  ngAfterContentChecked() {
     this.assignedChangeEvent || this.ngAfterContentInit();
   }
 

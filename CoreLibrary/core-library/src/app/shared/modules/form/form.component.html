@@ -41,11 +41,12 @@
 
 </form>
 
+
 <ng-template #submit>
   <div class="text-right" [ngClass]="{'col-4':formTemplate.onTop}">
     <div [ngClass]="{'padd--top--sml--sml2':!formTemplate.onTop}" [class]="formTemplate.submitClass">
       <div class="form-group spc--no"
-        [ngClass]="{'flex--align--end-responsive':formTemplate.onTop, 'd-flex justify-content-end':!formTemplate.onTop}">
+        [ngClass]="{'flex-align-end-responsive':formTemplate.onTop, 'd-flex justify-content-end':!formTemplate.onTop}">
 
         <ng-container *ngTemplateOutlet="formCancel? formCancel:cancelTemplate"></ng-container>
 

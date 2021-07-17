@@ -126,17 +126,23 @@ export class FormItemBaseComponent implements OnInit {
     }
     // NOTE : for dynamic binding we needed
 
-
-
-    this.validations.push({
+    this.required && this.validations.push({
+      id: 'required',
       message: this.requiredMessage,
       function: () => {
         return this.required &&
           (!this.control.value === undefined || !new RegExp("\\S").test(this.control.value) || StringF.IsNullOrWhiteSpace(this.control.value));
       }
     });
-    this.email && this.validations.push({ message: 'Please enter a valid email address.', pattern: (this.emailPattern || this.defaultEmailPattern) });
-    this.validations.push({
+
+    this.email && this.validations.push({
+      id: 'email',
+      message: 'Please enter a valid email address.',
+      pattern: (this.emailPattern || this.defaultEmailPattern)
+    });
+
+    this.compareKey && this.validations.push({
+      id: 'compareField',
       message: `${this.compareErrorMessage}`,
       function: () => { return this.compareKey && !this.equals; }
     });
@@ -165,7 +171,7 @@ export class FormItemBaseComponent implements OnInit {
     this.onChange.observers.length > 0 && this.onChange.emit(e);
     let regex = /^[0-9,]*$/;
     if (this.formatNum && this.control.value && regex.test(this.control.value) && (this.control.value !== this.previousValue)) {
-      let num = formatNumber(Number(this.control.value.replace(/,/g, '')), this.formatNum.locale, this.formatNum.digitsInfo);
+      let num = typeof (this.control.value) == 'string' ? formatNumber(Number(this.control.value.replace(/,/g, '')), this.formatNum.locale, this.formatNum.digitsInfo) : this.control.value;
       this.previousValue = num;
       this.formatNum && this.control.setValue(num);
     }
@@ -178,30 +184,24 @@ export class FormItemBaseComponent implements OnInit {
 
         let message = StringF.Format(validation.message, (this.label && this.label.toUpperCase()) || '');
         let validationType = ((validation.function && "function") || validation.type || 'pattern');
+
         //checking already added validation
-        if (Enumerable.from(this.defaultValidaionErrors).any((element) => { return element.message == message && element.validationType == validationType })) {
+        // here we using id to check validation item
+
+        if (validation.id) {
+          this.defaultValidaionErrors.filter((element) => {
+            return element.id == validation.id
+          }).forEach((valid) => {
+            valid = Object.assign(valid, this.getFormValidation(validation, message, validationType));
+          })
+        }
+
+        if (Enumerable.from(this.defaultValidaionErrors).any((element) => {
+          return (element.id && element.id == validation.id) || (element.message == message && element.validationType == validationType);
+        })) {
         }
         else {
-          this.defaultValidaionErrors.push({
-            message: StringF.Format(validation.message, (this.label && this.label.toUpperCase()) || ''),
-            funcMessage: () => {
-              return StringF.Format(validation.message, (this.label && this.label.toUpperCase()) || '');
-            },
-            validationType: validationType,
-            onDisplay: () => {
-              if (validation.function) {
-                return validation.function();
-              }
-              else if (validation.type && validation.type == ValidationType.required) {
-                validation.message = message;
-                return () => !this.control.value;
-              }
-              else {
-                let val = this.control.value;
-                return (!StringF.IsNullOrWhiteSpace(val) || val === 0) && !new RegExp(validation.pattern).test(this.utilService.trimmedValue(val));
-              }
-            }
-          })
+          this.defaultValidaionErrors.push(this.getFormValidation(validation, message, validationType))
         }
 
       }
@@ -209,10 +209,32 @@ export class FormItemBaseComponent implements OnInit {
     }
   }
 
+  getFormValidation(validation: Validations, message: string, validationType) {
+    let valid: IForValidationMessage =
+    {
+      id: validation.id,
+      message: StringF.Format(validation.message, (this.label && this.label.toUpperCase()) || ''),
+      funcMessage: () => {
+        return StringF.Format(validation.message, (this.label && this.label.toUpperCase()) || '');
+      },
+      validationType: validationType,
+      onDisplay: () => {
+        if (validation.function) {
+          return validation.function();
+        }
+        else if (validation.type && validation.type == ValidationType.required) {
+          validation.message = message;
+          return () => !this.control.value;
+        }
+        else {
+          let val = this.control.value;
+          return (!StringF.IsNullOrWhiteSpace(val) || val === 0) && !new RegExp(validation.pattern).test(this.utilService.trimmedValue(val));
+        }
+      }
+    }
+    return valid;
 
-
-
-
+  }
   onEdit() {
     this.updateFieldChanges();
     // NOTE: since  [formControlName]="dataField" and  [(ngModel)]="formModel[dataField]" we can't use it togeather 

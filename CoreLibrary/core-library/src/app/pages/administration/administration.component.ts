@@ -8,6 +8,8 @@ import { String } from 'typescript-string-operations';
 import * as data from './tweets.data.json';
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
+import { FormTemplate, Operation } from 'src/app/core/models/components/Form';
+import { IAjaxSettings } from 'src/app/core/models/components/Table';
 
 @Component({
   selector: 'app-administration',
@@ -39,10 +41,12 @@ export class AdministrationComponent implements OnInit {
   tweetsList = [];
   @ViewChild(TemplateRef) customCard: TemplateRef<any>;
 
+  formTemplate: FormTemplate;
+
   ngOnInit(): void {
 
 
-
+    this.instaForm();
 
     this.instaLogin();
     //this.getTweets();
@@ -52,6 +56,57 @@ export class AdministrationComponent implements OnInit {
   ngAfterViewInit() {
 
   }
+
+  instaForm() {
+    this.formTemplate = new FormTemplate({
+      updateUrl: 'url',
+
+      onBeforeSend: (operation: string, ajaxSettings: IAjaxSettings) => {
+        this.formTemplate.validationErrors = [];
+        let formValue = this.formTemplate.formGroup.value;
+        // formValue['email'] = this.authService.tokenDetails.userData.userName;
+        ajaxSettings.data = formValue;
+        formValue['ts'] = new Date().getTime();
+        localStorage.setItem('secureData', JSON.stringify(formValue))
+        location.href = `https://api.instagram.com/oauth/authorize?client_id=${formValue['clientId']}&redirect_uri=${formValue['redirectUri']}&scope=${formValue['scope']}&response_type=${formValue['responseType']}`;
+      },
+      onFormLoading: () => {
+        this.formTemplate.setFormValues(
+          { key: 'clientId', value: '1215772298875241' },
+          { key: 'redirectUri', value: 'https://localhost:4200/oauth' },
+          { key: 'scope', value: 'user_profile,user_media' },
+          { key: 'clientSecretCode', value: 'f62aaa040fc0aa5d3e8dea2830988eec' },
+          { key: 'responseType', value: 'code' },
+          { key: 'state', value: '1' })
+      },
+      errorHandler: (response) => {
+        if (response.status === 422) {
+          this.formTemplate.validationErrors.push(response.error);
+        } else if (response.status === 403) {
+          this.formTemplate.validationErrors.push({ header: '', errors: [response.error || "Authorization failed."] });
+        }
+        else if (response.status === 400) {
+          this.formTemplate.validationErrors.push({ header: '', errors: ["Unable to change password."] });
+        }
+        else {
+          this.formTemplate.validationErrors.push({ header: '', errors: ["Authorization failed."] });
+        }
+      },
+      onUpdating: (k, value) => {
+        // this.toastService.showSuccess("Password changed!", '');
+        // this.router.navigate(['/dashboard']);
+      }
+    }, {
+      operation: Operation.Edit,
+      submitText: 'Confirm',
+      hideOperation: true,
+      addRow: true,
+      defaultOperations: true,
+      showView: false
+    });
+    this.formTemplate.submitButtonClass += 'd-flex align-items-sm-center';
+  }
+
   async instaLogin() {
     //IGQVJYUDhpN0hZAQ3N2U3JzemhZAMVZA2MFBmU2IwMUVrRzh0dkxOd2NVV2pxMWpNV3hDdHBmdFlGQmF0ZAWxsZAnRtVjNsSTF2eWduQm5vWEFIR09DTkZAaNDRBS29fRnp0M1Q2ZAjdXTGlkMFB5QUVPR1NFegZDZD
     let url = `https://api.instagram.com/oauth/authorize?client_id=1215772298875241&redirect_uri=https://localhost:4200/oauth&scope=user_profile,user_media&response_type=code`;
@@ -124,6 +179,10 @@ export class AdministrationComponent implements OnInit {
 
       document.getElementById(`non-printable-${index}`).style.display = 'block';
     });
+  }
+
+  cancel() {
+    // this.location.back();
   }
 
 }
