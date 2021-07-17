@@ -17,7 +17,10 @@ export const environment = {
     },
     twt: {
       tweets: 'twt/Tweets'
-    }
+    },
+    insta: {
+      httpRequest: 'insta/httpRequest'
+    },
 
   },
   production: false

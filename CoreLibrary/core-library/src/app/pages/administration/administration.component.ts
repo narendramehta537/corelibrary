@@ -40,6 +40,14 @@ export class AdministrationComponent implements OnInit {
   cursorText = '';
   tweetsList = [];
   @ViewChild(TemplateRef) customCard: TemplateRef<any>;
+  formData = {
+    client_id: '1215772298875241',
+    client_secret: 'f62aaa040fc0aa5d3e8dea2830988eec',
+    redirect_uri: 'https://localhost:4200/oauth',
+    responseType: 'code',
+    state: '1',
+    scope: 'user_profile,user_media'
+  }
 
   formTemplate: FormTemplate;
 
@@ -67,17 +75,11 @@ export class AdministrationComponent implements OnInit {
         // formValue['email'] = this.authService.tokenDetails.userData.userName;
         ajaxSettings.data = formValue;
         formValue['ts'] = new Date().getTime();
-        localStorage.setItem('secureData', JSON.stringify(formValue))
-        location.href = `https://api.instagram.com/oauth/authorize?client_id=${formValue['clientId']}&redirect_uri=${formValue['redirectUri']}&scope=${formValue['scope']}&response_type=${formValue['responseType']}`;
+        localStorage.setItem('secureData', JSON.stringify(formValue));
+        this.formData = formValue;
+        location.href = `https://api.instagram.com/oauth/authorize?client_id=${this.formData.client_id}&redirect_uri=${this.formData.redirect_uri}&scope=${this.formData.scope}&response_type=${this.formData.responseType}`;
       },
       onFormLoading: () => {
-        this.formTemplate.setFormValues(
-          { key: 'clientId', value: '1215772298875241' },
-          { key: 'redirectUri', value: 'https://localhost:4200/oauth' },
-          { key: 'scope', value: 'user_profile,user_media' },
-          { key: 'clientSecretCode', value: 'f62aaa040fc0aa5d3e8dea2830988eec' },
-          { key: 'responseType', value: 'code' },
-          { key: 'state', value: '1' })
       },
       errorHandler: (response) => {
         if (response.status === 422) {

@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace CoreLibrary
 {
@@ -34,6 +36,7 @@ namespace CoreLibrary
             services.AddScoped<IHttpClientServices, BaseHttpServices>();
             services.AddScoped<IFileServices, FileServices>();
             services.AddScoped<ITwtServices, TwtServices>();
+            services.AddScoped<IInstaServices, InstaServices>();
 
             services.AddScoped<IGoogleDriveService, GoogleDriveService>();
             services.AddScoped<IFileUploadService, FileUploadService>();
@@ -45,7 +48,11 @@ namespace CoreLibrary
 
         public void FrontEndConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

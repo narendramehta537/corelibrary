@@ -1,30 +1,27 @@
 ﻿using CoreLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using CoreLibrary.Data;
-using CoreLibrary.Models;
 using CoreLibrary.Services.Social;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace CoreLibrary.Controllers.Social
 {
     [Route("api/[controller]")]
-    public class InstaController:RootController
+    public class InstaController : RootController
     {
-        private readonly ITwtServices _twtServices;
+        private readonly IInstaServices _instaServices;
 
-        public InstaController(DataContext dataContext, IHttpContextAccessor contextAccessor, ITwtServices twtServices)
-            : base(dataContext, contextAccessor, twtServices)
+        public InstaController(DataContext dataContext, IHttpContextAccessor contextAccessor, IInstaServices instaServices)
+            : base(dataContext, contextAccessor, instaServices)
         {
-            _twtServices = twtServices;
+            _instaServices = instaServices;
         }
 
-        [HttpGet("[action]")]
-        public async Task<IActionResult> Tweets([FromQuery] SocialQueryModel queryModel)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> HttpRequest([FromBody] QueryModel queryModel)
         {
-            return (await _twtServices.Tweets(queryModel)).ResponseResult();
+            return (await _instaServices.Request(queryModel)).ResponseResult();
         }
     }
 }

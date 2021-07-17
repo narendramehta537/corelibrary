@@ -16,11 +16,11 @@ namespace CoreLibrary.Globals
         public static string TweetsCursorFromUserId(string username, string cursor) =>
             $"{TwtTweetsFromUserId(username)}&cursor={WebUtility.UrlEncode(cursor)}";
 
+    }
+    public class InstaConstants
+    {
         //https://developers.facebook.com/docs/instagram-basic-display-api/guides/getting-access-tokens-and-permissions/
-        public const string InstaBaseApiUrl = "https://api.instagram.com/";
-
-        public static string InstaAuth(string clientId, string redirectUri, string scope, string state)
-            => @$"oauth/authorize?client_id={clientId}&redirect_uri={redirectUri}&scope={scope}&response_type=code&state={state}";
-
+        public const string BaseApiUrl = "https://api.instagram.com/";
+        public const string AccessToken = "oauth/access_token";
     }
 }

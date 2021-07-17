@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { error } from 'protractor';
+import { Constants } from 'src/app/core/models/Constants';
+import { QueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-oauth',
@@ -20,29 +23,23 @@ export class OauthComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let securityData = JSON.parse(localStorage.getItem(Constants.secureData));
+    let map = new Map<string, string>();
+    Object.keys(securityData).forEach((key) => {
+      map.set(key, securityData[key].toString())
+    });
 
-    let postData = {
-      client_id: 1215772298875241,
-      client_secret: 'f62aaa040fc0aa5d3e8dea2830988eec',
-      code: this.code,
-      grant_type: 'authorization_code',
-      redirect_uri: 'https://localhost:4200/oauth'
-      // state:1
-    };
+    delete securityData.scope
+    delete securityData.ts;
+    delete securityData.responseType;
 
-    fetch('https://api.instagram.com/oauth/authorize', { body: JSON.stringify(postData) }).then((response) => {
-      // debugger
-    }, error => {
-      // debugger
-    })
+    securityData.code = this.code;
+    securityData.grant_type = 'authorization_code';
 
-
-
-    // this.utilService.postRequestUnHandled('https://api.instagram.com/oauth/authorize', postData).subscribe((res: any) => {
-    //   localStorage.setItem('tokenDetails', JSON.stringify(res));
-    // }, (error) => {
-    //   console.log(error);
-    // });
+    let queryModel = new QueryModel({ Url: 'https://api.instagram.com/oauth/authorize', RequestType: 'POSTFORM', Form: securityData });
+    this.utilService.postRequest(environment.apiEndPoint.insta.httpRequest, queryModel).subscribe((res) => {
+      debugger;
+    });
 
   }
 
