@@ -4,9 +4,9 @@ import { fromEvent } from 'rxjs';
 import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { FormTemplate, Operation } from 'src/app/core/models/components/Form';
 import { IAjaxSettings } from 'src/app/core/models/components/Table';
-import { QueryModel } from 'src/app/core/models/QueryModels';
+import { PageDetails, PostDetails, QueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
-import { CardComponent } from 'src/app/shared/components/card/card.component';
+import { CardComponent, ICardTemplate } from 'src/app/shared/components/card/card.component';
 import { environment } from 'src/environments/environment';
 import * as data from './insta.data.json';
 
@@ -99,6 +99,7 @@ export class InstaComponent implements OnInit {
       node.thumbnail_src && displayUrls.push(node.thumbnail_src);
       node.edge_sidecar_to_children?.edges?.map((du) => {
         du.node?.display_url && displayUrls.push(du.node.display_url);
+        du.node?.video_url && displayUrls.push(du.node.video_url);
       })
 
       currentPostDetails.push({
@@ -113,11 +114,17 @@ export class InstaComponent implements OnInit {
     this.postDetails.push(...currentPostDetails);
 
     currentPostDetails.forEach((post: PostDetails) => {
-      this.instaDataSource.push(new CardComponent(this.utilService).setCardValue({
-        imageSrc: post.displayUrls[0],
-        text: post.captions[0],
-        title: ' '
-      }));
+      let card = new CardComponent(this.utilService);
+
+      let cardTemplates = post.displayUrls.map((childPost, index): ICardTemplate => {
+        return {
+          media: { src: childPost, type: childPost.includes('.mp4') ? 'Video' : 'Image' },
+          text: post.captions[0],
+          title: ' '
+        }
+      });
+      card.setCards(cardTemplates);
+      this.instaDataSource.push(card);
     })
 
   }
@@ -212,15 +219,3 @@ export class InstaComponent implements OnInit {
   }
 }
 
-interface PostDetails {
-  id?: string,
-  captions?: string[],
-  likes?: number,
-  comments?: number,
-  displayUrls?: string[]
-}
-
-interface PageDetails {
-  cursor?: string;
-  pageNumber?: number;
-}

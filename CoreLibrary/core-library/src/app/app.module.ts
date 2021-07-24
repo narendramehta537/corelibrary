@@ -20,6 +20,7 @@ import { SampleChartsComponent } from './pages/sample-charts/sample-charts.compo
 import { AnimationsModule } from './pages/animations/animations.module';
 import { ServicesComponent } from './pages/services/services.component';
 import { ServicesModule } from './pages/services/services.module';
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ServicesModule } from './pages/services/services.module';
     ServicesModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
-    })
+    }),
+    SlickCarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

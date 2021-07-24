@@ -19,19 +19,15 @@ export class DashboardComponent implements OnInit {
   pageInfo: PageInfo;
 
   constructor(private utilService: UtilsService) {
-    utilService.SampleData.images.map((img) => {
-      let card = new CardComponent(utilService);
-      card.imageSrc = img;
+    utilService.SampleData.images.slice(0, 2).map((img) => {
+      let card = new CardComponent(utilService).setCardValue({ media: { src: img } });
       // card.onHoverShowDetails = true;
       this.dataSource.push(card);
     })
   }
 
   ngOnInit(): void {
-    let queryModel = new QueryModel({ Url: 'https://www.instagram.com/serbanlorena' });
-    this.utilService.postRequestUnHandled(environment.apiEndPoint.insta.httpRequest, queryModel).subscribe((res) => {
 
-    })
   }
   ngAfterViewInit() {
 

@@ -40,7 +40,7 @@ export class TwtComponent implements OnInit {
         let media = tweets[key].entities.media;
         if (media) {
           let card = new CardComponent(this.utilService);
-          card.setCardValue({ imageSrc: media[0].media_url });
+          card.setCardValue({ media: { src: media[0].media_url } });
           this.dataSource.push(card);
         }
       });

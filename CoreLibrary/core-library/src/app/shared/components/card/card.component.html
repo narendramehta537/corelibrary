@@ -1,23 +1,42 @@
-<div class="card ">
-  <ng-content *ngTemplateOutlet="customCardTemplate?customCardTemplate:defaultTemplate"></ng-content>
-
-  <div *ngIf="title || text" [class]="'card-'+(onHoverShowDetails?'img-overlay  op-0':'body')">
-    <h4 *ngIf="title" [class]="'card-title '+fontClass">{{title}}</h4>
-    <p *ngIf="text" [class]="'card-text '+fontClass">{{text|slice:0:299}}</p>
-    <a *ngIf="showDownload && imageSrc" (click)="downloadImage()">
-      <i [class]="'fa fa-download '+fontClass" aria-hidden="true"></i>
-    </a>
-    <a *ngIf="redirectUrl" [href]="redirectUrl" class="btn bg-pink fg-theme rounded-pill ml-3">{{redirectName}}</a>
+<ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slickConfig">
+  <div ngxSlickItem *ngFor="let card of cards" class="slide card">
+    <ng-content *ngTemplateOutlet="customCardTemplate?customCardTemplate:defaultTemplate;context:{card:card}">
+    </ng-content>
+    <div *ngIf="card.title || card.text" [class]="'card-'+(card.onHoverShowDetails?'img-overlay  op-0':'body')">
+      <h4 *ngIf="card.title" [class]="'card-title '+card.fontClass">{{card.title}}</h4>
+      <p *ngIf="card.text" [class]="'card-text '+card.fontClass">{{card.text|slice:0:299}}</p>
+      <a *ngIf="card.showDownload && card.media" (click)="downloadMedia(card.media.src)">
+        <i [class]="'fa fa-download '+card.fontClass" aria-hidden="true"></i>
+      </a>
+      <a *ngIf="card.redirectUrl" [href]="card.redirectUrl"
+        class="btn bg-pink fg-theme rounded-pill ml-3">{{card.redirectName}}</a>
+    </div>
   </div>
-  <!-- <ng-content *ngTemplateOutlet="onHoverShowDetails?onHoverDetails:details"></ng-content> -->
-</div>
+</ngx-slick-carousel>
+
+<!-- <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slickConfig">
+  <div ngxSlickItem *ngFor="let image of images;index as index" class="slide card ">
+    <img [src]="image" class="card-img-top default-height" [alt]="index">
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+        content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+  </div>
+</ngx-slick-carousel> -->
+
 <!-- customCardTemplate -->
 
-<ng-template #defaultTemplate>
-  <img [src]="imageSrc" class="default-height" [alt]="title" [ngClass]="{'card-img-top':!onHoverShowDetails}">
+<ng-template #defaultTemplate let-card="card">
+  <img *ngIf="card.media.type=='Image'" [src]="card.media.src" class="default-height" [alt]="card.title"
+    [ngClass]="{'card-img-top':!card.onHoverShowDetails}">
+  <video *ngIf="card.media.type=='Video'" [src]="card.media.src" class="default-height"
+    [ngClass]="{'card-img-top':!card.onHoverShowDetails}" controls>
+  </video>
 </ng-template>
 
-<ng-template #onHoverDetails>
+<!-- <ng-template #onHoverDetails>
   <div *ngIf="title || text" class="card-img-overlay  op-0">
     <h4 *ngIf="title" class="card-title" [ngClass]="{fontClass:fontClass}">{{title}}</h4>
     <p *ngIf="text" class="card-text" [ngClass]="{fontClass:fontClass}">{{text}}</p>
@@ -34,4 +53,4 @@
     <a *ngIf="showDownload && imageSrc" (click)="downloadImage()"> <i class="fa fa-download" aria-hidden="true"></i></a>
     <a *ngIf="redirectUrl" href="redirectUrl" class="btn btn-primary">Link</a>
   </div>
-</ng-template>
+</ng-template> -->

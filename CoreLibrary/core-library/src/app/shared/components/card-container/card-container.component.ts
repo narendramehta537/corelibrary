@@ -33,10 +33,14 @@ export class CardContainerComponent implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
-  async downloadImages() {
-    Enumerable.from(this.dataSource).forEach(async (item) => {
-      await this.utilService.downloadWithResponseFileName(environment.apiEndPoint.file.downloadFile, null, new FileQueryModel(item.imageSrc))
-        .toPromise();
+  downloadImages() {
+    Enumerable.from(this.dataSource).forEach((item) => {
+      item.cards.forEach(async (card) => {
+        if (card?.media?.src)
+          await this.utilService.downloadWithResponseFileName(environment.apiEndPoint.file.downloadFile, null, new FileQueryModel(card.media.src))
+            .toPromise();
+      })
+
     });
   }
 

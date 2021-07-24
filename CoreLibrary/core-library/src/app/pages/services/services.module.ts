@@ -8,10 +8,11 @@ import { InstaComponent } from './insta/insta.component';
 import { FormsModule } from '@angular/forms';
 import { FormModule } from 'src/app/shared/modules/form/form.module';
 import { TwtComponent } from './twt/twt.component';
+import { PinComponent } from './pin/pin.component';
 
 
 @NgModule({
-  declarations: [InstaComponent, TwtComponent],
+  declarations: [InstaComponent, TwtComponent, PinComponent],
   imports: [
     CommonModule,
     ServicesRoutingModule,

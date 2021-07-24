@@ -19,3 +19,72 @@
     @include cardDefaults;
   }
 }
+
+.slick {
+  &-prev {
+    left: 0 !important;
+  }
+
+  &-next {
+    right: 0 !important;
+  }
+
+  &-arrow {
+    z-index: 123;
+  }
+}
+
+.slick-dots {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 10px !important;
+}
+
+.slick-dots li button {
+  background: white !important;
+  text-indent: -9999px;
+  // box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.25);
+  // overflow:hidden;
+  height: 12px !important;
+  width: 12px !important;
+  // margin-right: 7px;
+  border-radius: 100px;
+  position: relative;
+
+  /* more CSS */
+  &::after {
+    content: "";
+    height: 6px;
+    width: 6px;
+    background: lightgrey !important;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 100px;
+    transform: translate(-50%, -50%);
+  }
+}
+
+li.slick-active button {
+  position: relative;
+  background: #fff !important;
+
+  // display: block;
+  &:focus {
+    outline: none;
+  }
+
+  &::after {
+    content: "";
+    height: 6px;
+    width: 6px;
+    background: #00A1DF !important;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 100px;
+    transform: translate(-50%, -50%);
+  }
+}

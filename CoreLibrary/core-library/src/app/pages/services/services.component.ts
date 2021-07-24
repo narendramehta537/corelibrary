@@ -24,7 +24,9 @@ export class ServicesComponent implements OnInit {
         .setCardValue({
           title: 'Instagram',
           fontClass: 'fg-theme',
-          imageSrc: '/assets/images/insta-logo.png',
+          media: {
+            src: '/assets/images/insta-logo.png',
+          },
           onHoverShowDetails: true,
           redirectUrl: '/services/insta',
           redirectName: 'Visit',
@@ -34,14 +36,30 @@ export class ServicesComponent implements OnInit {
         .setCardValue({
           title: 'Twitter',
           fontClass: 'fg-theme',
-          imageSrc: '/assets/images/twt-logo.png',
+          media: {
+            src: '/assets/images/twt-logo.png',
+          },
           onHoverShowDetails: true,
           redirectUrl: '/services/twt',
           redirectName: 'Visit',
           text: "Join the conversation! Expand your social network and stay updated on what's trending now. Retweet, chime in on a thread, go viral, or just scroll through ."
         }),
 
+      new CardComponent(this.utilService)
+        .setCardValue({
+          title: 'Pinterest',
+          fontClass: 'fg-theme',
+          media: {
+            src: '/assets/images/pin-logo.png',
+          },
+          onHoverShowDetails: true,
+          redirectUrl: '/services/pin',
+          redirectName: 'Visit',
+          text: "Looking for creative ideas? Whether you're planning your next big travel adventure, searching for home design concepts, looking for fashion & fitness ..."
+        }),
+
     ];
+    debugger;
     this.dataSource.push(...card);
   }
 

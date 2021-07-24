@@ -1,15 +1,8 @@
-import { Template } from '@angular/compiler/src/render3/r3_ast';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { QueryModel, SocialQueryModel } from 'src/app/core/models/QueryModels';
+import { Component, OnInit } from '@angular/core';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { CardComponent } from 'src/app/shared/components/card/card.component';
-import { environment } from 'src/environments/environment';
-import { String } from 'typescript-string-operations';
-
 import * as htmlToImage from 'html-to-image';
-import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
-import { FormTemplate, Operation } from 'src/app/core/models/components/Form';
-import { IAjaxSettings } from 'src/app/core/models/components/Table';
+import { FormTemplate } from 'src/app/core/models/components/Form';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
@@ -23,9 +16,10 @@ export class AdministrationComponent implements OnInit {
 
   constructor(private utilService: UtilsService, private authService: AuthenticationService) {
     for (let index = 0; index < 3; index++) {
-      let card = new CardComponent(this.utilService);
-      card.imageSrc = 'https://www.sciencenews.org/wp-content/uploads/2016/10/102116_EC_bubble_nucleus_main_0.jpg';
-      card.onHoverShowDetails = true;
+      let card = new CardComponent(this.utilService).setCardValue({
+        media: { src: 'https://www.sciencenews.org/wp-content/uploads/2016/10/102116_EC_bubble_nucleus_main_0.jpg' },
+        onHoverShowDetails: true
+      });
       this.dataSource.push(card);
     }
 

@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ServicesComponent } from './services.component';
 import { InstaComponent } from './insta/insta.component';
 import { TwtComponent } from './twt/twt.component';
+import { PinComponent } from './pin/pin.component';
 
 const routes: Routes = [{
   path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [{
     {
       path: 'twt',
       component: TwtComponent
+    },
+    {
+      path: 'pin',
+      component: PinComponent
     },
   ]
 }]

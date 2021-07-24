@@ -46,6 +46,15 @@ export class SocialQueryModel implements ISocialQueryModel {
     Cursor?: string;
 }
 
-interface SearchUserDetails {
-    userId?: string
+export interface PostDetails {
+    id?: string,
+    captions?: string[],
+    likes?: number,
+    comments?: number,
+    displayUrls?: string[]
+}
+
+export interface PageDetails {
+    cursor?: string;
+    pageNumber?: number;
 }
