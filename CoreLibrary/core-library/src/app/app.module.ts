@@ -18,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { SampleChartsComponent } from './pages/sample-charts/sample-charts.component';
 import { AnimationsModule } from './pages/animations/animations.module';
+import { ServicesComponent } from './pages/services/services.component';
+import { ServicesModule } from './pages/services/services.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { AnimationsModule } from './pages/animations/animations.module';
     LoginComponent,
     OauthComponent,
     SampleChartsComponent,
+    ServicesComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ import { AnimationsModule } from './pages/animations/animations.module';
     FormModule,
     NgbModule,
     BrowserAnimationsModule,
+    ServicesModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts')
     })

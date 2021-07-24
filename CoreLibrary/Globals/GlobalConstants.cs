@@ -21,6 +21,7 @@ namespace CoreLibrary.Globals
     {
         //https://developers.facebook.com/docs/instagram-basic-display-api/guides/getting-access-tokens-and-permissions/
         public const string BaseApiUrl = "https://api.instagram.com/";
+        public const string BaseUrl = "https://www.instagram.com/";
         public const string AccessToken = "oauth/access_token";
     }
 }

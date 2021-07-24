@@ -1,10 +1,8 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { from } from 'rxjs';
+import { AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import * as Enumerable from 'linq';
 import { environment } from 'src/environments/environment';
 import { FileQueryModel } from 'src/app/core/models/QueryModels';
-import { CardTemplate } from 'src/app/core/models/CardTemplates';
 import { CardComponent } from '../card/card.component';
 
 @Component({
@@ -21,18 +19,18 @@ export class CardContainerComponent implements OnInit, OnChanges {
 
   countedArr = [];
 
-  // get chunks() {
-  //   return this.utilService.chunk(this.dataSource, this.rowSize);
-  // }
+  constructor(private utilService: UtilsService, private cdr: ChangeDetectorRef) {
 
-  constructor(private utilService: UtilsService) {
-
-    // this.countedArr = utilService.countedArray(this.rowSize);
   }
+
   ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
   }
 
   async downloadImages() {

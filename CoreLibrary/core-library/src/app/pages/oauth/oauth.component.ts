@@ -24,11 +24,6 @@ export class OauthComponent implements OnInit {
 
   ngOnInit(): void {
     let securityData = JSON.parse(localStorage.getItem(Constants.secureData));
-    let map = new Map<string, string>();
-    Object.keys(securityData).forEach((key) => {
-      map.set(key, securityData[key].toString())
-    });
-
     delete securityData.scope
     delete securityData.ts;
     delete securityData.responseType;
@@ -36,9 +31,14 @@ export class OauthComponent implements OnInit {
     securityData.code = this.code;
     securityData.grant_type = 'authorization_code';
 
-    let queryModel = new QueryModel({ Url: 'https://api.instagram.com/oauth/authorize', RequestType: 'POSTFORM', Form: securityData });
-    this.utilService.postRequest(environment.apiEndPoint.insta.httpRequest, queryModel).subscribe((res) => {
-      debugger;
+    let queryModel = new QueryModel({ Url: 'https://api.instagram.com/oauth/access_token', RequestType: 'POSTFORM', Form: securityData });
+    this.utilService.postRequestUnHandled(environment.apiEndPoint.insta.httpRequest, queryModel).subscribe((response: any) => {
+      let res = JSON.parse(response.data);
+      res.ts = new Date().getTime();
+      localStorage.removeItem(Constants.secureData);
+      localStorage.setItem(Constants.instaToken, JSON.stringify(res));
+    }, error => {
+      alert(error.error.displayError);
     });
 
   }

@@ -22,6 +22,11 @@ namespace CoreLibrary.Controllers.Social
         public async Task<IActionResult> HttpRequest([FromBody] QueryModel queryModel)
         {
             return (await _instaServices.Request(queryModel)).ResponseResult();
+        }  
+        [HttpPost("[action]")]
+        public async Task<IActionResult> HttpRequestBase([FromBody] QueryModel queryModel)
+        {
+            return (await _instaServices.RequestBase(queryModel)).ResponseResult();
         }
     }
 }

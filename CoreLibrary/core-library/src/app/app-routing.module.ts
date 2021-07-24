@@ -21,6 +21,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
+    path: 'services',
+    loadChildren: () => import('./pages/services/services-routing.module').then(m => m.ServicesRoutingModule),
+    canActivate: [AuthGuardService]
+  },
+  {
     path: '**',
     redirectTo: 'dashboard',
   }

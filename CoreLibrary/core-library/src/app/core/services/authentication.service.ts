@@ -6,6 +6,7 @@ import { catchError, map } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
 import { TokenModel } from 'src/app/shared/models/token-models';
 import { LoginModel } from 'src/app/shared/models/authentication-models';
+import { Constants } from '../models/Constants';
 
 @Injectable()
 export class AuthenticationService {
@@ -31,7 +32,10 @@ export class AuthenticationService {
       );
   }
 
-
+  getInstaToken() {
+    let instaTokenDetails = localStorage.getItem(Constants.instaToken);
+    return JSON.parse(instaTokenDetails).access_token;
+  }
 
   logOut() {
     localStorage.removeItem(environment.tokenName);

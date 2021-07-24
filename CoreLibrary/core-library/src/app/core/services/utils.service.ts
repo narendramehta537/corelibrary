@@ -224,7 +224,7 @@ export class UtilsService {
   setClassValuesFromInterfaceObj(interfaceObj: any, classObj: any) {
     if (interfaceObj) {
       Object.keys(interfaceObj).forEach((key) => {
-        if (interfaceObj[key]) classObj[key] = interfaceObj[key];
+        if (interfaceObj[key] != null) classObj[key] = interfaceObj[key];
       });
     }
   }

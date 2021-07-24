@@ -7,7 +7,7 @@ export interface IQueryModel {
     RequestType?: RequestType;
     Url?: string;
     Body?: any;
-    Form?: Map<string, string>;
+    Form?: any | Map<string, string>;
 }
 export type RequestType = 'GET' | 'PUT' | 'POSTFORM' | 'POST' | 'DELETE';
 
@@ -44,4 +44,8 @@ export class SocialQueryModel implements ISocialQueryModel {
     }
     UserName: string;
     Cursor?: string;
+}
+
+interface SearchUserDetails {
+    userId?: string
 }

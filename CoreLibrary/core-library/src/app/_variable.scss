@@ -18,7 +18,7 @@ $themes: (light: #fff,
   leaf: #27ae60,
   nightsky: #2980b9);
 
-$appColors:(theme:$theme-color, text:$text-color, label:$label-color);
+$appColors:(theme:$theme-color, text:$text-color, label:$label-color, 'pink':#F56692);
 
 $card-border-radius:1rem;
 $decimals:(1, 2, 3, 4, 5, 6, 7, 8, 9, 0);

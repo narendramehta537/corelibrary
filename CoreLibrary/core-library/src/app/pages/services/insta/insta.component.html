@@ -1,0 +1,34 @@
+<!-- <input #search type="text" class="wf-10" [(ngModel)]="searchText"> -->
+<div class="d-flex mb-3">
+
+  <input type="text" class="wf-10 mb-3" [(ngModel)]="searchText" (keydown.enter)="searchUser($event)">
+  <button class="ml-3 btn rounded-pill bg-pink fg-theme" (click)="nextPage()">Next Page</button>
+
+</div>
+
+
+<app-card-container [dataSource]="instaDataSource"></app-card-container>
+
+
+<div *ngIf="false" class="form-container p-2">
+
+  <app-form class="w-100" header="Change Your Password" [formTemplate]="formTemplate" [formData]="formData"
+    (cancel)="cancel()">
+    <div class="row py-3 pb-5 ">
+
+      <app-form-item type='password' dataField="client_id" label="client Id" [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="redirect_uri" label="redirect uri" [required]="true">
+      </app-form-item>
+      <app-form-item type='password' dataField="client_secret" label="Client Secret Code" [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="scope" label="scope " [required]="true">
+      </app-form-item>
+      <app-form-item type='text' dataField="responseType" label="response type" [required]="true">
+      </app-form-item>
+
+    </div>
+  </app-form>
+</div>
+
+<input *ngIf="false" type="text" [(ngModel)]="userDetails.userId" (keyup.enter)="userPosts()">

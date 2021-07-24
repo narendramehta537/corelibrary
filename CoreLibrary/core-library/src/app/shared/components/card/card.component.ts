@@ -10,7 +10,10 @@ export interface ICardComponent {
   title?: string;
   text?: string;
   redirectUrl?: string;
+  redirectName?: string;
   showDownload?: boolean;
+  onHoverShowDetails?: boolean;
+  fontClass?: string;
 }
 
 @Component({
@@ -24,9 +27,11 @@ export class CardComponent implements OnInit {
   @Input() title: string = 'title';
   @Input() text: string = 'Some quick example text to build on the card title and make up the bulk of the card\'s content.';
   @Input() redirectUrl: string;
+  @Input() redirectName: string = 'Link';
   @Input() showDownload = true;
   @Input() cardTemplate: CardComponent;
   @Input() onHoverShowDetails = false;
+  @Input() fontClass: string = ' ';
   customCardTemplate: TemplateRef<any>;
 
   constructor(private utilService: UtilsService) {
@@ -46,10 +51,12 @@ export class CardComponent implements OnInit {
 
   setCardValue(card?: ICardComponent) {
     this.utilService.setClassValuesFromInterfaceObj(card, this);
+    return this
   }
 
 
   downloadImage() {
+    // window.open(this.imageSrc);
     this.utilService.downloadWithResponseFileName(environment.apiEndPoint.file.downloadFile, null, new FileQueryModel(this.imageSrc))
       .subscribe((res) => {
       });

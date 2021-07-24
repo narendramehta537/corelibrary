@@ -1,15 +1,16 @@
 import { Template } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { SocialQueryModel } from 'src/app/core/models/QueryModels';
+import { QueryModel, SocialQueryModel } from 'src/app/core/models/QueryModels';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { CardComponent } from 'src/app/shared/components/card/card.component';
 import { environment } from 'src/environments/environment';
 import { String } from 'typescript-string-operations';
-import * as data from './tweets.data.json';
+
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import { FormTemplate, Operation } from 'src/app/core/models/components/Form';
 import { IAjaxSettings } from 'src/app/core/models/components/Table';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-administration',
@@ -19,8 +20,8 @@ import { IAjaxSettings } from 'src/app/core/models/components/Table';
 export class AdministrationComponent implements OnInit {
 
   dataSource: CardComponent[] = [];
-  tweetData: any = data;
-  constructor(private utilService: UtilsService) {
+
+  constructor(private utilService: UtilsService, private authService: AuthenticationService) {
     for (let index = 0; index < 3; index++) {
       let card = new CardComponent(this.utilService);
       card.imageSrc = 'https://www.sciencenews.org/wp-content/uploads/2016/10/102116_EC_bubble_nucleus_main_0.jpg';
@@ -36,27 +37,14 @@ export class AdministrationComponent implements OnInit {
     // })
   }
 
-  currentPageResponse: any;
-  cursorText = '';
+
   tweetsList = [];
-  @ViewChild(TemplateRef) customCard: TemplateRef<any>;
-  formData = {
-    client_id: '1215772298875241',
-    client_secret: 'f62aaa040fc0aa5d3e8dea2830988eec',
-    redirect_uri: 'https://localhost:4200/oauth',
-    responseType: 'code',
-    state: '1',
-    scope: 'user_profile,user_media'
-  }
+
 
   formTemplate: FormTemplate;
 
   ngOnInit(): void {
 
-
-    this.instaForm();
-
-    this.instaLogin();
     //this.getTweets();
 
   }
@@ -65,109 +53,12 @@ export class AdministrationComponent implements OnInit {
 
   }
 
-  instaForm() {
-    this.formTemplate = new FormTemplate({
-      updateUrl: 'url',
-
-      onBeforeSend: (operation: string, ajaxSettings: IAjaxSettings) => {
-        this.formTemplate.validationErrors = [];
-        let formValue = this.formTemplate.formGroup.value;
-        // formValue['email'] = this.authService.tokenDetails.userData.userName;
-        ajaxSettings.data = formValue;
-        formValue['ts'] = new Date().getTime();
-        localStorage.setItem('secureData', JSON.stringify(formValue));
-        this.formData = formValue;
-        location.href = `https://api.instagram.com/oauth/authorize?client_id=${this.formData.client_id}&redirect_uri=${this.formData.redirect_uri}&scope=${this.formData.scope}&response_type=${this.formData.responseType}`;
-      },
-      onFormLoading: () => {
-      },
-      errorHandler: (response) => {
-        if (response.status === 422) {
-          this.formTemplate.validationErrors.push(response.error);
-        } else if (response.status === 403) {
-          this.formTemplate.validationErrors.push({ header: '', errors: [response.error || "Authorization failed."] });
-        }
-        else if (response.status === 400) {
-          this.formTemplate.validationErrors.push({ header: '', errors: ["Unable to change password."] });
-        }
-        else {
-          this.formTemplate.validationErrors.push({ header: '', errors: ["Authorization failed."] });
-        }
-      },
-      onUpdating: (k, value) => {
-        // this.toastService.showSuccess("Password changed!", '');
-        // this.router.navigate(['/dashboard']);
-      }
-    }, {
-      operation: Operation.Edit,
-      submitText: 'Confirm',
-      hideOperation: true,
-      addRow: true,
-      defaultOperations: true,
-      showView: false
-    });
-    this.formTemplate.submitButtonClass += 'd-flex align-items-sm-center';
-  }
-
-  async instaLogin() {
-    //IGQVJYUDhpN0hZAQ3N2U3JzemhZAMVZA2MFBmU2IwMUVrRzh0dkxOd2NVV2pxMWpNV3hDdHBmdFlGQmF0ZAWxsZAnRtVjNsSTF2eWduQm5vWEFIR09DTkZAaNDRBS29fRnp0M1Q2ZAjdXTGlkMFB5QUVPR1NFegZDZD
-    let url = `https://api.instagram.com/oauth/authorize?client_id=1215772298875241&redirect_uri=https://localhost:4200/oauth&scope=user_profile,user_media&response_type=code`;
-    let params = {
-      client_id: 1215772298875241,
-      redirect_uri: 'https://localhost:4200/oauth',
-      response_type: 'code',
-      scope: 'user_profile,user_media',
-      // state:1
-    };
-
-    // fetch(url, {
-    //   mode: 'cors', headers: {
-    //     'Access-Control-Allow-Origin': '*'
-    //   }
-    // }).then((res) => {
-    //   console.log(res);
-    // }, (error) => {
-    //   console.log(error);
-    // })
-    // this.utilService.getRequestUnhandled('https://api.instagram.com/oauth/authorize', params).subscribe((res) => {
-    //   debugger;
-    // }, (error) => {
-    //   console.log(error);
-    // });
-
-    // let resp = await this.utilService.postRequestUnHandled('https://api.instagram.com/oauth/access_token',)
-  }
+  //https://developers.facebook.com/docs/instagram-basic-display-api/guides/getting-access-tokens-and-permissions/
 
 
-  async getTweets() {
-    let username = 'AnimalsWorId';
-    let index = 0;
-    do {
 
-      let res: any = await this.utilService.getRequestUnhandled(environment.apiEndPoint.twt.tweets, new SocialQueryModel({
-        UserName: encodeURIComponent(username), Cursor: encodeURIComponent(this.cursorText)
-      })).toPromise().catch((error) => {
-        console.log(error);
-      });
 
-      this.currentPageResponse = res.data;
-      let tweets = JSON.parse(this.currentPageResponse).globalObjects.tweets;
-      Object.keys(tweets).forEach((key) => {
-        this.tweetsList.push(tweets[key]);
-        let media = tweets[key].entities.media;
-        if (media) {
-          let card = new CardComponent(this.utilService);
-          card.setCardValue({ imageSrc: media[0].media_url });
-          this.dataSource.push(card);
-        }
-      });
-      let cursor = this.utilService.getBetween(this.currentPageResponse, 'operation":{"cursor":{"value":"', '"');
-      if (cursor) {
-        this.cursorText = cursor[1];
-      }
 
-    } while (++index < 5 && this.cursorText)
-  }
 
   downloadAsPng(filename: string, index: number): void {
     document.getElementById(`non-printable-${index}`).style.display = 'none';
@@ -183,8 +74,8 @@ export class AdministrationComponent implements OnInit {
     });
   }
 
-  cancel() {
-    // this.location.back();
-  }
+
 
 }
+
+

@@ -27,8 +27,17 @@ namespace CoreLibrary.API.Services
         {
             if (string.IsNullOrWhiteSpace(url) || !url.StartsWith("http"))
                 throw new Exception("Invalid Url");
-
-            string ext = url.Substring(url.LastIndexOf('.') + 1);
+            string ext;
+            if (url.LastIndexOf('?') > 0)
+            {
+                var trimmedToken = url.Substring(0, url.LastIndexOf('?'));
+                ext = trimmedToken.Substring(trimmedToken.LastIndexOf('.') + 1);
+                fileName ??= $"{trimmedToken.Substring(trimmedToken.LastIndexOf('/') + 1)}";
+            }
+            else
+            {
+                ext = url.Substring(url.LastIndexOf('.') + 1);
+            }
             fileName = string.IsNullOrWhiteSpace(fileName) ? url.Substring(url.LastIndexOf('/') + 1) : $"{fileName}.{ext}";
            
             var response = await HttpClient.GetAsync(new Uri(url));

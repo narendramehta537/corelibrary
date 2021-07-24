@@ -1,18 +1,28 @@
-<div class="card">
+<div class="card ">
   <ng-content *ngTemplateOutlet="customCardTemplate?customCardTemplate:defaultTemplate"></ng-content>
-  <ng-content *ngTemplateOutlet="onHoverShowDetails?onHoverDetails:details"></ng-content>
+
+  <div *ngIf="title || text" [class]="'card-'+(onHoverShowDetails?'img-overlay  op-0':'body')">
+    <h4 *ngIf="title" [class]="'card-title '+fontClass">{{title}}</h4>
+    <p *ngIf="text" [class]="'card-text '+fontClass">{{text|slice:0:299}}</p>
+    <a *ngIf="showDownload && imageSrc" (click)="downloadImage()">
+      <i [class]="'fa fa-download '+fontClass" aria-hidden="true"></i>
+    </a>
+    <a *ngIf="redirectUrl" [href]="redirectUrl" class="btn bg-pink fg-theme rounded-pill ml-3">{{redirectName}}</a>
+  </div>
+  <!-- <ng-content *ngTemplateOutlet="onHoverShowDetails?onHoverDetails:details"></ng-content> -->
 </div>
 <!-- customCardTemplate -->
 
 <ng-template #defaultTemplate>
-  <img [src]="imageSrc" [class]=" 'default-height card-img-' + (onHoverShowDetails?'overlay':'top')" [alt]="title">
+  <img [src]="imageSrc" class="default-height" [alt]="title" [ngClass]="{'card-img-top':!onHoverShowDetails}">
 </ng-template>
 
 <ng-template #onHoverDetails>
   <div *ngIf="title || text" class="card-img-overlay  op-0">
-    <h4 *ngIf="title" class="card-title">{{title}}</h4>
-    <p *ngIf="text" class="card-text">{{text}}</p>
-    <a *ngIf="showDownload && imageSrc" (click)="downloadImage()"> <i class="fa fa-download" aria-hidden="true"></i></a>
+    <h4 *ngIf="title" class="card-title" [ngClass]="{fontClass:fontClass}">{{title}}</h4>
+    <p *ngIf="text" class="card-text" [ngClass]="{fontClass:fontClass}">{{text}}</p>
+    <a *ngIf="showDownload && imageSrc" (click)="downloadImage()"> <i class="fa fa-download" aria-hidden="true"
+        [ngClass]="{fontClass:fontClass}"></i></a>
     <a *ngIf="redirectUrl" href="redirectUrl" class="btn btn-primary">Link</a>
   </div>
 </ng-template>
