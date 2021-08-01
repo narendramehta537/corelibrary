@@ -3,6 +3,7 @@ import { PageDetails, PostDetails, QueryModel } from 'src/app/core/models/QueryM
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { CardComponent, ICardTemplate } from 'src/app/shared/components/card/card.component';
 import { environment } from 'src/environments/environment';
+import * as data from './pin.data.json';
 
 @Component({
   selector: 'app-pin',
@@ -12,45 +13,59 @@ import { environment } from 'src/environments/environment';
 export class PinComponent implements OnInit {
 
   @ViewChild('search') searchElement: ElementRef;
-  searchText: string = 'liquidverve';// 'serbanlorena';
-  instaDataSource: CardComponent[] = [];
+  searchText: string = '/ArtStation_HQ/digital-2d-art';// 'serbanlorena';
+  dataSource: CardComponent[] = [];
   userDetails: any;
   authService: any;
   currentPageSource: any;
   currentPageDetails: PageDetails;
   postDetails: PostDetails[] = [];
+  havePosts = false;
 
   constructor(private utilService: UtilsService) {
 
   }
 
   ngOnInit(): void {
+    let pinData: any = data;
+    // let tempData = this.utilService.getBetween(pinData.default, 'application/json">{"rebuildStoreOnClient', '</script>');
+    // this.userDetails = JSON.parse('{"rebuildStoreOnClient' + tempData[0]);
+    // this.parseFirstPage(this.userDetails);
+    // this.parsePosts(pinData.default.resource_response);
   }
+
   searchUser(e) {
 
     let queryModel = new QueryModel({ Url: `https://in.pinterest.com/${this.searchText}` });
 
     this.utilService.postRequestUnHandled(environment.apiEndPoint.insta.httpRequest, queryModel)
       .subscribe((res: any) => {
-        debugger;
         let data = this.utilService.getBetween(res.data, 'application/json">{"rebuildStoreOnClient', '</script>');
-        this.userDetails = JSON.parse(data[0]);
-        this.parseFirstaPage(this.userDetails);
+        this.userDetails = JSON.parse('{"rebuildStoreOnClient' + data[0]);
+        this.parsePosts(this.userDetails.resourceResponses[1]?.response, this.userDetails.resourceResponses[1]?.options);
       })
   }
 
-  parseFirstaPage(pageDetails) {
+  parsePosts(response, options?) {
+    this.currentPageSource = response;
+
     let currentPostDetails = [];
-    this.currentPageSource = pageDetails;
-    pageDetails.resourceResponses[1]?.response?.data?.map((node) => {
-      let captions = [];
-      captions.push(node.closeup_unified_description);
+    this.currentPageDetails = {
+      cursor: response.bookmark,
+      pageNumber: this.currentPageDetails?.pageNumber || 25,
+      cursorData: this.currentPageDetails?.cursorData
+    };
+    options && (this.currentPageDetails.cursorData = { options: options });
+    // this.currentPageDetails.cursorData && (this.currentPageDetails.cursorData.bookmarks = [response?.bookmark]);
+
+    response.data?.map((post) => {
+      let captions = [post.closeup_unified_description || post.description];
       let displayUrls = [];
-      node?.images?.orig?.url && displayUrls.push(node.images.orig.url);
+      post?.images?.orig?.url && displayUrls.push(post.images.orig.url);
       currentPostDetails.push({
-        id: node.id,
-        // comments: node.edge_media_to_comment?.count,
-        // likes: node.edge_liked_by?.count,
+        id: post.id,
+        comments: post.comment_count,
+        likes: post.favorite_user_count,
         captions: captions,
         displayUrls: displayUrls
       });
@@ -69,70 +84,24 @@ export class PinComponent implements OnInit {
         }
       });
       card.setCards(cardTemplates);
-      this.instaDataSource.push(card);
+      this.dataSource.push(card);
     })
 
+    this.havePosts = currentPostDetails.length >= 25;
   }
 
-  parsePostDetails(pageDetails) {
-    let currentPostDetails = [];
-    this.currentPageSource = pageDetails;
-    this.currentPageDetails = {
-      cursor: pageDetails.edge_owner_to_timeline_media.page_info.end_cursor,
-      pageNumber: this.currentPageDetails?.pageNumber || 12
-    }
-    pageDetails.edge_owner_to_timeline_media?.edges?.map((post) => {
-      let node = post.node;
-      let captions = [];
-      node.edge_media_to_caption?.edges?.map((caption) => {
-        caption?.node?.text && captions.push(caption.node.text);
-      });
-      let displayUrls = [];
-      node.thumbnail_src && displayUrls.push(node.thumbnail_src);
-      node.edge_sidecar_to_children?.edges?.map((du) => {
-        du.node?.display_url && displayUrls.push(du.node.display_url);
-        du.node?.video_url && displayUrls.push(du.node.video_url);
-      })
-
-      currentPostDetails.push({
-        id: node.id,
-        comments: node.edge_media_to_comment?.count,
-        likes: node.edge_liked_by?.count,
-        captions: captions,
-        displayUrls: displayUrls
-      });
-    })
-
-    this.postDetails.push(...currentPostDetails);
-
-    currentPostDetails.forEach((post: PostDetails) => {
-      let card = new CardComponent(this.utilService);
-
-      let cardTemplates = post.displayUrls.map((childPost, index): ICardTemplate => {
-        return {
-          media: { src: childPost, type: childPost.includes('.mp4') ? 'Video' : 'Image' },
-          text: post.captions[0],
-          title: ' '
-        }
-      });
-      card.setCards(cardTemplates);
-      this.instaDataSource.push(card);
-    })
-
-  }
 
   nextPage() {
 
     if (this.currentPageDetails?.cursor) {
-      this.currentPageDetails.pageNumber += 50;
-      let variables = encodeURIComponent(`{"id":"${this.userDetails.id}","first":${this.currentPageDetails.pageNumber},"after":"${this.currentPageDetails.cursor}"}`);
-      let url = `https://www.instagram.com/graphql/query/?query_hash=8c2a529969ee035a5063f2fc8602a0fd&variables=${variables}`;
+      this.currentPageDetails.pageNumber += 25;
+      let url = `https://in.pinterest.com/resource/BoardFeedResource/get/?source_url=${encodeURIComponent(this.searchText)}&data=${encodeURIComponent(JSON.stringify(this.currentPageDetails.cursorData))}&_=${new Date().getTime()}`;
 
       let queryModel = new QueryModel({ Url: url });
       this.utilService.postRequestUnHandled(environment.apiEndPoint.insta.httpRequest, queryModel)
         .subscribe((res: any) => {
           let parsed = JSON.parse(res.data);
-          this.parsePostDetails(parsed?.data?.user);
+          this.parsePosts(parsed?.resource_response, parsed?.resource.options);
         }, error => {
           this.currentPageDetails.cursor = null;
         });

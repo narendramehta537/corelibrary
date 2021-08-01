@@ -1,9 +1,8 @@
 <div class="d-flex mb-3">
-
   <input type="text" class="wf-10 mb-3" [(ngModel)]="searchText" (keydown.enter)="searchUser($event)">
-  <button class="ml-3 btn rounded-pill bg-pink fg-theme" (click)="nextPage()">Next Page</button>
-
 </div>
 
+<app-card-container [dataSource]="dataSource" [showExportUrls]="true"></app-card-container>
 
-<app-card-container [dataSource]="instaDataSource"></app-card-container>
+<button *ngIf="havePosts" class="d-flex m-auto btn rounded-pill bg-pink fg-theme" (click)="nextPage()">Load
+  More...</button>

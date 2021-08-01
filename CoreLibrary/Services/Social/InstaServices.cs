@@ -34,11 +34,11 @@ namespace CoreLibrary.Services.Social
         {
             return queryModel.RequestType switch
             {
+                "GET" => await Get(queryModel),
                 "PUT" => await Put(queryModel),
                 "POST" => await Post(queryModel),
                 "POSTFORM" => await PostForm(queryModel),
                 "DELETE" => await Delete(queryModel),
-                "GET" => await Get(queryModel),
                 _ => await Get(queryModel),
             };
         }
@@ -46,11 +46,11 @@ namespace CoreLibrary.Services.Social
         {
             return queryModel.RequestType switch
             {
+                "GET" => await Get(queryModel),
                 "PUT" => await Put(queryModel),
                 "POST" => await Post(queryModel),
                 "POSTFORM" => await PostForm(queryModel),
                 "DELETE" => await Delete(queryModel),
-                "GET" => await Get(queryModel),
                 _ => await Get(queryModel),
             };
         }
@@ -87,6 +87,7 @@ namespace CoreLibrary.Services.Social
             if (!apiResponse.IsSuccess) apiResponse.SetDisplayError(JsonConvert.DeserializeObject<InstaAPIError>(apiResponse.Data.ToString()).error_message);
             return apiResponse;
         }
+     
         private async Task<APIResponse> Put(QueryModel queryModel)
         {
 

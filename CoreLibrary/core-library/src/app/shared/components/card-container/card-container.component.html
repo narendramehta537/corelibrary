@@ -1,6 +1,10 @@
-<div class="text-end">
-  <a *ngIf="showDownloadAll && dataSource.length > 0" (click)="downloadImages()"> <i class="fa fa-download"
-      aria-hidden="true"></i></a>
+<div class="d-flex">
+  <a *ngIf="showDownloadAll && dataSource.length > 0" (click)="downloadImages()" ngbTooltip="Download Images">
+    <i class="fa fa-download" aria-hidden="true"></i>
+  </a>
+  <a *ngIf="showExportUrls && dataSource.length > 0" (click)="exportUrls()" ngbTooltip="Export Url">
+    <i class="fa fa-link"></i>
+  </a>
 </div>
 
 <div class="row row-cols-auto gy-3">

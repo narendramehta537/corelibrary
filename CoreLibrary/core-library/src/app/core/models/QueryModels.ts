@@ -56,5 +56,6 @@ export interface PostDetails {
 
 export interface PageDetails {
     cursor?: string;
+    cursorData?: any;
     pageNumber?: number;
 }

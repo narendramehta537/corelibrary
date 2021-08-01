@@ -4,6 +4,7 @@ import * as Enumerable from 'linq';
 import { environment } from 'src/environments/environment';
 import { FileQueryModel } from 'src/app/core/models/QueryModels';
 import { CardComponent } from '../card/card.component';
+import { saveAs } from "file-saver";
 
 @Component({
   selector: 'app-card-container',
@@ -15,6 +16,7 @@ export class CardContainerComponent implements OnInit, OnChanges {
   // @Input() rowSize = 5;
   @Input() dataSource: CardComponent[] = [];;
   @Input() showDownloadAll = true;
+  @Input() showExportUrls = true;
   @Input() cardWrapperClass = 'col-sm-6 col-md-6 col-lg-3';
 
   countedArr = [];
@@ -42,6 +44,18 @@ export class CardContainerComponent implements OnInit, OnChanges {
       })
 
     });
+  }
+
+  exportUrls() {
+    let links = [];
+    this.dataSource.forEach((item, index, arr) => {
+      let temp = `${index},${item.cards.map(a => a.media.src).join(',')}`;
+      links.push(temp)
+    })
+    const blob = new Blob([links.join('\n')], { type: 'text/csv' });
+    saveAs(blob, 'Export Url.csv');
+    // const url = window.URL.createObjectURL(blob);
+    // window.open(url);
   }
 
 

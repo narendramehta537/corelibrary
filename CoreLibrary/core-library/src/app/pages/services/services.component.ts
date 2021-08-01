@@ -59,7 +59,6 @@ export class ServicesComponent implements OnInit {
         }),
 
     ];
-    debugger;
     this.dataSource.push(...card);
   }
 
