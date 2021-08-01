@@ -52,7 +52,7 @@ export class PinComponent implements OnInit {
     let currentPostDetails = [];
     this.currentPageDetails = {
       cursor: response.bookmark,
-      pageNumber: this.currentPageDetails?.pageNumber || 25,
+      postNumber: this.currentPageDetails?.postNumber || 25,
       cursorData: this.currentPageDetails?.cursorData
     };
     options && (this.currentPageDetails.cursorData = { options: options });
@@ -94,7 +94,7 @@ export class PinComponent implements OnInit {
   nextPage() {
 
     if (this.currentPageDetails?.cursor) {
-      this.currentPageDetails.pageNumber += 25;
+      this.currentPageDetails.postNumber += 25;
       let url = `https://in.pinterest.com/resource/BoardFeedResource/get/?source_url=${encodeURIComponent(this.searchText)}&data=${encodeURIComponent(JSON.stringify(this.currentPageDetails.cursorData))}&_=${new Date().getTime()}`;
 
       let queryModel = new QueryModel({ Url: url });

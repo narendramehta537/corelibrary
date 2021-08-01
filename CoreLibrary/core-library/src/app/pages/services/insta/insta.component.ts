@@ -20,6 +20,7 @@ export class InstaComponent implements OnInit {
   @ViewChild('search') searchElement: ElementRef;
   searchText: string = 'liquidverve';// 'serbanlorena';
   instaDataSource: CardComponent[] = [];
+  havePosts = false;
 
   @ViewChild(TemplateRef) customCard: TemplateRef<any>;
 
@@ -87,7 +88,7 @@ export class InstaComponent implements OnInit {
     this.currentPageSource = pageDetails;
     this.currentPageDetails = {
       cursor: pageDetails.edge_owner_to_timeline_media.page_info.end_cursor,
-      pageNumber: this.currentPageDetails?.pageNumber || 12
+      postNumber: this.currentPageDetails?.postNumber || 12
     }
     pageDetails.edge_owner_to_timeline_media?.edges?.map((post) => {
       let node = post.node;
@@ -127,13 +128,15 @@ export class InstaComponent implements OnInit {
       this.instaDataSource.push(card);
     })
 
+    this.havePosts = currentPostDetails.length >= 50 || (this.currentPageDetails.postNumber == 12 && currentPostDetails.length == 12);
+
   }
 
   nextPage() {
 
     if (this.currentPageDetails?.cursor) {
-      this.currentPageDetails.pageNumber += 50;
-      let variables = encodeURIComponent(`{"id":"${this.userDetails.id}","first":${this.currentPageDetails.pageNumber},"after":"${this.currentPageDetails.cursor}"}`);
+      this.currentPageDetails.postNumber += 50;
+      let variables = encodeURIComponent(`{"id":"${this.userDetails.id}","first":${this.currentPageDetails.postNumber},"after":"${this.currentPageDetails.cursor}"}`);
       let url = `https://www.instagram.com/graphql/query/?query_hash=8c2a529969ee035a5063f2fc8602a0fd&variables=${variables}`;
       // let formData = {
       //   query_hash: '8c2a529969ee035a5063f2fc8602a0fd',

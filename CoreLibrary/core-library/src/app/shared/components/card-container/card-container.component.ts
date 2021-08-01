@@ -49,7 +49,7 @@ export class CardContainerComponent implements OnInit, OnChanges {
   exportUrls() {
     let links = [];
     this.dataSource.forEach((item, index, arr) => {
-      let temp = `${index},${item.cards.map(a => a.media.src).join(',')}`;
+      let temp = `${item.cards.map(a => `"${a.media.src}"`).join(',')}`;
       links.push(temp)
     })
     const blob = new Blob([links.join('\n')], { type: 'text/csv' });
