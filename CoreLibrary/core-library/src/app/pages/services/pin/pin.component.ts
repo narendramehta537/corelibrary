@@ -41,6 +41,9 @@ export class PinComponent implements OnInit {
     this.utilService.postRequestUnHandled(environment.apiEndPoint.insta.httpRequest, queryModel)
       .subscribe((res: any) => {
         let data = this.utilService.getBetween(res.data, 'application/json">{"rebuildStoreOnClient', '</script>');
+        if (data && data.length == 0) {
+          data = this.utilService.getBetween(res.data, 'application/json">{"aggregatedComments', '</script>');
+        }
         this.userDetails = JSON.parse('{"rebuildStoreOnClient' + data[0]);
         this.parsePosts(this.userDetails.resourceResponses[1]?.response, this.userDetails.resourceResponses[1]?.options);
       })

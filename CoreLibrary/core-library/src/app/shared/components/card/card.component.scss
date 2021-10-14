@@ -3,11 +3,16 @@
 .card {
   &:hover {
     .card-img {
+      transition: 1s;
       opacity: .3 !important;
     }
 
     .card-img-overlay {
+      transition: 1s;
       opacity: 1 !important;
     }
   }
 }
+
+
+@keyframes hoverOpacity {}
