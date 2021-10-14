@@ -157,28 +157,28 @@ namespace CoreLibrary
             });
 
             // Mapping another client app with core as a base url
-            app.Map(new PathString("/core"), client => {
-                if (env.IsDevelopment())
-                {
-                    StaticFileOptions coreLib = new StaticFileOptions()
-                    {
-                        FileProvider = new PhysicalFileProvider(
-                                Path.Combine(
-                                    Directory.GetCurrentDirectory(),
-                                    @"core-library"
-                                )
-                            )
-                    };
-                    client.UseSpaStaticFiles(coreLib);
-                    client.UseSpa(spa =>
-                    {
-                        spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
-                        spa.Options.SourcePath = "core-library";
-                        // it will use package.json & will search for start command to run
-                        spa.UseAngularCliServer(npmScript: "start");
-                    });
-                }
-            });
+            //app.Map(new PathString("/core"), client => {
+            //    if (env.IsDevelopment())
+            //    {
+            //        StaticFileOptions coreLib = new StaticFileOptions()
+            //        {
+            //            FileProvider = new PhysicalFileProvider(
+            //                    Path.Combine(
+            //                        Directory.GetCurrentDirectory(),
+            //                        @"core-library"
+            //                    )
+            //                )
+            //        };
+            //        client.UseSpaStaticFiles(coreLib);
+            //        client.UseSpa(spa =>
+            //        {
+            //            spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
+            //            spa.Options.SourcePath = "core-library";
+            //            // it will use package.json & will search for start command to run
+            //            spa.UseAngularCliServer(npmScript: "start");
+            //        });
+            //    }
+            //});
 
         }
     }
