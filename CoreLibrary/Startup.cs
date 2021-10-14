@@ -53,7 +53,7 @@ namespace CoreLibrary
             services.AddMemoryCache();
 
             services.AddHttpContextAccessor();
-            FrontEndConfigureServices(services);
+            //FrontEndConfigureServices(services);
         }
 
         public void FrontEndConfigureServices(IServiceCollection services)
@@ -74,7 +74,7 @@ namespace CoreLibrary
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.Configure(env);
-            FrontEndConfigure(app, env);
+            //FrontEndConfigure(app, env);
         }
 
         public void FrontEndConfigure(IApplicationBuilder app, IWebHostEnvironment env)
